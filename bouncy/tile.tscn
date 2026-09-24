@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://8u50fc06u2ye"]
+
+[ext_resource type="Script" uid="uid://darwrxsnji1jk" path="res://tile.gd" id="1_1rer8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6rn0g"]
+size = Vector2(8, 8)
+
+[node name="Tile" type="StaticBody2D" unique_id=153612413]
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("1_1rer8")
+
+[node name="Polygon2D" type="Polygon2D" parent="." unique_id=1076533160]
+color = Color(1, 0, 1, 1)
+polygon = PackedVector2Array(-4, -4, 4, -4, 4, 4, -4, 4)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1029384463]
+shape = SubResource("RectangleShape2D_6rn0g")

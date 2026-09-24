@@ -1,0 +1,43 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
+[application]
+
+config/name="Effects & Shaders | Gold 2 Bouncy"
+run/main_scene="res://game.tscn"
+config/features=PackedStringArray("4.7", "GL Compatibility")
+config/icon="res://icon.svg"
+
+[display]
+
+window/size/viewport_width=128
+window/size/viewport_height=64
+window/size/transparent=true
+window/size/window_width_override=512
+window/size/window_height_override=256
+window/stretch/mode="canvas_items"
+
+[layer_names]
+
+2d_physics/layer_1="paddle"
+2d_physics/layer_2="ball"
+2d_physics/layer_3="boundary"
+2d_physics/layer_4="tile"
+2d_physics/layer_5="ball_1"
+2d_physics/layer_6="ball_2"
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
