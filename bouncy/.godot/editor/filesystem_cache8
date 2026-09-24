@@ -1,0 +1,8 @@
+ea4bc82a6ad023ab7ee23ee620429895
+::res://::1728563127
+ball.gd::GDScript::-1::1728286287::0::1::::Ball<>CharacterBody2D<>::
+ball.tscn::PackedScene::8908314596522538821::1726211015::0::1::::<><>::res://ball.gd
+game.tscn::PackedScene::9096525337596103060::1728286328::0::1::::<><>::uid://dy6iv0x8udb1v::::res://ball.tscn<>uid://8u50fc06u2ye::::res://tile.tscn
+icon.svg::CompressedTexture2D::4317218036695225513::1726211015::1726211037::1::::<><>::
+tile.gd::GDScript::-1::1728286287::0::1::::Tile<>StaticBody2D<>::
+tile.tscn::PackedScene::2359385816651370192::1726211015::0::1::::<><>::res://tile.gd

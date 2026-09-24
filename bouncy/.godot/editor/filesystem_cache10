@@ -1,0 +1,9 @@
+78098b89c88a74ebe8c20117b8754620
+::res://::1790258880
+ball.gd::GDScript::905614583648296877::1790256688::0::1::::Ball<>CharacterBody2D<><>0<>0<><>::
+ball.tscn::PackedScene::8908314596522538821::1790257572::0::1::::<><><>0<>0<><>::uid://m5xls5w4tpf6::::res://ball.gd
+game.gd::GDScript::4226702733757834303::1790254034::0::1::::<>Node2D<><>0<>0<><>::
+game.tscn::PackedScene::9096525337596103060::1790257291::0::1::::<><><>0<>0<><>::uid://b1hpgaa87ks1t::::res://game.gd<>uid://dy6iv0x8udb1v::::res://ball.tscn<>uid://8u50fc06u2ye::::res://tile.tscn
+icon.svg::CompressedTexture2D/CompressedTexture2D::4317218036695225513::1790161253::1790161253::1::::<><><>0<>0<>6e6433b05ff2f3cb77d12ba9f123f5da<>res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex::
+tile.gd::GDScript::7195723841682129940::1790255755::0::1::::Tile<>StaticBody2D<><>0<>0<><>::
+tile.tscn::PackedScene::2359385816651370192::1790251564::0::1::::<><><>0<>0<><>::uid://darwrxsnji1jk::::res://tile.gd
