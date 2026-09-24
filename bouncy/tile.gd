@@ -64,7 +64,7 @@ func start_ripple() -> void:
 		if tile is Tile and tile != self:
 			var distance = global_position.distance_to(tile.global_position)
 
-			if(distance < 20):
+			if(distance < 30):
 				tile.ripple(distance)
 			
 func ripple(distance: float) -> void:

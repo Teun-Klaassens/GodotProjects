@@ -1,1 +1,4 @@
 res://ball.tscn
+res://game.tscn
+res://ball.gd
+res://tile.gd

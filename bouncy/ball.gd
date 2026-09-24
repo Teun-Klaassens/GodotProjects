@@ -49,7 +49,7 @@ func _get_collision_layer() -> int:
 	return collision_layer
 	
 func squash_and_stretch(collision_normal: Vector2) -> void:
-	pass
+	#pass
 	var tween = create_tween()
 	tween.set_trans(Tween.TRANS_BACK)
 	tween.set_ease(Tween.EASE_OUT)
@@ -58,11 +58,11 @@ func squash_and_stretch(collision_normal: Vector2) -> void:
 
 	# Hit left/right wall
 	if abs(collision_normal.x) > abs(collision_normal.y):
-		squash_scale = Vector2(0.0, 0.2)
+		squash_scale = Vector2(0.8, 1.2)
 
 	# Hit top/bottom
 	else:
-		squash_scale = Vector2(0.2, 0.0)
+		squash_scale = Vector2(1.2, 0.8)
 
 	tween.tween_property(
 		polygon_2d,
