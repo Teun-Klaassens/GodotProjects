@@ -1,0 +1,709 @@
+[gd_scene format=3 uid="uid://d2uopcpeaxl8o"]
+
+[ext_resource type="PackedScene" uid="uid://dy6iv0x8udb1v" path="res://ball.tscn" id="2_u88ny"]
+[ext_resource type="PackedScene" uid="uid://8u50fc06u2ye" path="res://tile.tscn" id="3_twn5j"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ar8xm"]
+size = Vector2(160, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6j2en"]
+size = Vector2(16, 96)
+
+[node name="Game" type="Node2D" unique_id=1510462969]
+
+[node name="Boundaries" type="StaticBody2D" parent="." unique_id=285968385]
+position = Vector2(-4, -4)
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShapeTop" type="CollisionShape2D" parent="Boundaries" unique_id=148238908]
+position = Vector2(64, -8)
+shape = SubResource("RectangleShape2D_ar8xm")
+
+[node name="CollisionShapeBottom" type="CollisionShape2D" parent="Boundaries" unique_id=1763093385]
+position = Vector2(64, 72)
+shape = SubResource("RectangleShape2D_ar8xm")
+
+[node name="CollisionShapeLeft" type="CollisionShape2D" parent="Boundaries" unique_id=1308459572]
+position = Vector2(-8, 32)
+shape = SubResource("RectangleShape2D_6j2en")
+
+[node name="CollisionShapeRight" type="CollisionShape2D" parent="Boundaries" unique_id=2085643226]
+position = Vector2(136, 32)
+shape = SubResource("RectangleShape2D_6j2en")
+
+[node name="Tiles" type="Node2D" parent="." unique_id=383304613]
+
+[node name="Tile" parent="Tiles" unique_id=94655598 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile3" parent="Tiles" unique_id=1277439224 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(0, 8)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile4" parent="Tiles" unique_id=363386854 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(0, 16)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile5" parent="Tiles" unique_id=2045469992 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(0, 24)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile6" parent="Tiles" unique_id=52930405 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(0, 32)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile7" parent="Tiles" unique_id=371121305 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(0, 40)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile8" parent="Tiles" unique_id=1791453940 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(0, 48)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile9" parent="Tiles" unique_id=1752851113 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(0, 56)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile17" parent="Tiles" unique_id=238779741 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(8, 0)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile18" parent="Tiles" unique_id=1479877293 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(8, 8)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile19" parent="Tiles" unique_id=1444873465 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(8, 16)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile20" parent="Tiles" unique_id=1514104819 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(8, 24)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile21" parent="Tiles" unique_id=256059675 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(8, 32)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile22" parent="Tiles" unique_id=1442356042 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(8, 40)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile23" parent="Tiles" unique_id=140073600 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(8, 48)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile24" parent="Tiles" unique_id=927679064 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(8, 56)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile25" parent="Tiles" unique_id=1615487040 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(16, 0)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile26" parent="Tiles" unique_id=592762211 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(16, 8)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile27" parent="Tiles" unique_id=196730561 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(16, 16)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile28" parent="Tiles" unique_id=524765519 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(16, 24)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile29" parent="Tiles" unique_id=835184680 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(16, 32)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile30" parent="Tiles" unique_id=1925193855 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(16, 40)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile31" parent="Tiles" unique_id=203436239 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(16, 48)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile32" parent="Tiles" unique_id=1066893754 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(16, 56)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile33" parent="Tiles" unique_id=2041340967 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(24, 0)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile34" parent="Tiles" unique_id=287679389 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(24, 8)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile35" parent="Tiles" unique_id=1448225444 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(24, 16)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile36" parent="Tiles" unique_id=895530790 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(24, 24)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile37" parent="Tiles" unique_id=238379699 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(24, 32)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile38" parent="Tiles" unique_id=1731384267 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(24, 40)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile39" parent="Tiles" unique_id=1545653613 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(24, 48)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile40" parent="Tiles" unique_id=109633716 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(24, 56)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile41" parent="Tiles" unique_id=936504338 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(32, 0)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile42" parent="Tiles" unique_id=1148895196 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(32, 8)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile43" parent="Tiles" unique_id=1057006551 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(32, 16)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile44" parent="Tiles" unique_id=191820064 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(32, 24)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile45" parent="Tiles" unique_id=659170832 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(32, 32)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile46" parent="Tiles" unique_id=158399585 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(32, 40)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile47" parent="Tiles" unique_id=1464523620 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(32, 48)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile48" parent="Tiles" unique_id=563326038 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(32, 56)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile49" parent="Tiles" unique_id=257135165 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(40, 0)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile50" parent="Tiles" unique_id=85310595 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(40, 8)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile51" parent="Tiles" unique_id=1637986069 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(40, 16)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile52" parent="Tiles" unique_id=1294881028 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(40, 24)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile53" parent="Tiles" unique_id=1312037862 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(40, 32)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile54" parent="Tiles" unique_id=1141461396 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(40, 40)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile55" parent="Tiles" unique_id=1016749537 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(40, 48)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile56" parent="Tiles" unique_id=300018357 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(40, 56)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile57" parent="Tiles" unique_id=39898894 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(48, 0)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile58" parent="Tiles" unique_id=926120615 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(48, 8)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile59" parent="Tiles" unique_id=1371095973 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(48, 16)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile60" parent="Tiles" unique_id=1861190110 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(48, 24)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile61" parent="Tiles" unique_id=354519294 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(48, 32)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile62" parent="Tiles" unique_id=1642358973 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(48, 40)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile63" parent="Tiles" unique_id=2064308736 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(48, 48)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile64" parent="Tiles" unique_id=1909071468 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(48, 56)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile65" parent="Tiles" unique_id=2029316167 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(56, 0)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile66" parent="Tiles" unique_id=643947723 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(56, 8)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile67" parent="Tiles" unique_id=810001516 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(56, 16)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile68" parent="Tiles" unique_id=981351858 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(56, 24)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile69" parent="Tiles" unique_id=1382350571 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(56, 32)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile70" parent="Tiles" unique_id=1589979617 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(56, 40)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile71" parent="Tiles" unique_id=125087086 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(56, 48)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile72" parent="Tiles" unique_id=2080469530 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(56, 56)
+collision_layer = 32
+ball = NodePath("../../Ball2")
+
+[node name="Tile2" parent="Tiles" unique_id=713794017 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(120, 0)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile10" parent="Tiles" unique_id=1535931369 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(120, 8)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile11" parent="Tiles" unique_id=2045224667 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(120, 16)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile12" parent="Tiles" unique_id=459852877 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(120, 24)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile13" parent="Tiles" unique_id=979698540 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(120, 32)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile14" parent="Tiles" unique_id=1221951979 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(120, 40)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile15" parent="Tiles" unique_id=318180120 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(120, 48)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile16" parent="Tiles" unique_id=630526853 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(120, 56)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile73" parent="Tiles" unique_id=1219175148 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(112, 0)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile74" parent="Tiles" unique_id=690398010 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(112, 8)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile75" parent="Tiles" unique_id=1684844571 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(112, 16)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile76" parent="Tiles" unique_id=1460142334 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(112, 24)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile77" parent="Tiles" unique_id=1196379500 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(112, 32)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile78" parent="Tiles" unique_id=1654249 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(112, 40)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile79" parent="Tiles" unique_id=2132036844 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(112, 48)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile80" parent="Tiles" unique_id=583479628 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(112, 56)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile81" parent="Tiles" unique_id=1655515127 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(104, 0)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile82" parent="Tiles" unique_id=2096520588 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(104, 8)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile83" parent="Tiles" unique_id=894630135 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(104, 16)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile84" parent="Tiles" unique_id=684747399 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(104, 24)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile85" parent="Tiles" unique_id=690010910 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(104, 32)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile86" parent="Tiles" unique_id=1622094566 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(104, 40)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile87" parent="Tiles" unique_id=769139543 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(104, 48)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile88" parent="Tiles" unique_id=2003333342 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(104, 56)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile89" parent="Tiles" unique_id=1441598830 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(96, 0)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile90" parent="Tiles" unique_id=1478625421 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(96, 8)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile91" parent="Tiles" unique_id=684191631 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(96, 16)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile92" parent="Tiles" unique_id=1402177491 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(96, 24)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile93" parent="Tiles" unique_id=1254060542 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(96, 32)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile94" parent="Tiles" unique_id=133226761 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(96, 40)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile95" parent="Tiles" unique_id=1548577969 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(96, 48)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile96" parent="Tiles" unique_id=455739465 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(96, 56)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile97" parent="Tiles" unique_id=2110510669 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(88, 0)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile98" parent="Tiles" unique_id=188058413 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(88, 8)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile99" parent="Tiles" unique_id=1993492767 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(88, 16)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile100" parent="Tiles" unique_id=1628976583 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(88, 24)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile101" parent="Tiles" unique_id=644423615 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(88, 32)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile102" parent="Tiles" unique_id=2055853477 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(88, 40)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile103" parent="Tiles" unique_id=1945567099 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(88, 48)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile104" parent="Tiles" unique_id=1180055936 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(88, 56)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile105" parent="Tiles" unique_id=607082318 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(80, 0)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile106" parent="Tiles" unique_id=2029517655 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(80, 8)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile107" parent="Tiles" unique_id=1180310329 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(80, 16)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile108" parent="Tiles" unique_id=291957705 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(80, 24)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile109" parent="Tiles" unique_id=1492652062 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(80, 32)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile110" parent="Tiles" unique_id=2051332014 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(80, 40)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile111" parent="Tiles" unique_id=958336916 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(80, 48)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile112" parent="Tiles" unique_id=1018462073 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(80, 56)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile113" parent="Tiles" unique_id=858155435 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(72, 0)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile114" parent="Tiles" unique_id=766527570 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(72, 8)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile115" parent="Tiles" unique_id=2088711265 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(72, 16)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile116" parent="Tiles" unique_id=417280936 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(72, 24)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile117" parent="Tiles" unique_id=949806474 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(72, 32)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile118" parent="Tiles" unique_id=78920637 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(72, 40)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile119" parent="Tiles" unique_id=1600078994 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(72, 48)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile120" parent="Tiles" unique_id=825991819 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(72, 56)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile121" parent="Tiles" unique_id=1228107578 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(64, 0)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile122" parent="Tiles" unique_id=1179432505 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(64, 8)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile123" parent="Tiles" unique_id=692097735 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(64, 16)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile124" parent="Tiles" unique_id=1320111186 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(64, 24)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile125" parent="Tiles" unique_id=1829552546 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(64, 32)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile126" parent="Tiles" unique_id=1323046652 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(64, 40)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile127" parent="Tiles" unique_id=238241894 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(64, 48)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Tile128" parent="Tiles" unique_id=178642640 node_paths=PackedStringArray("ball") instance=ExtResource("3_twn5j")]
+position = Vector2(64, 56)
+collision_layer = 16
+ball = NodePath("../../Ball1")
+
+[node name="Ball1" parent="." unique_id=421920126 instance=ExtResource("2_u88ny")]
+unique_name_in_owner = true
+position = Vector2(104, 24)
+collision_layer = 16
+collision_mask = 36
+is_ball_one = true
+colour_ball_one = Color(0.99607843, 0.5294118, 0.6392157, 1)
+colour_ball_two = Color(0.69411767, 0.56078434, 0.8117647, 1)
+speed = 75.0
+
+[node name="Polygon2D" parent="Ball1" index="0" unique_id=120437003]
+color = Color(1, 0, 0, 1)
+
+[node name="Ball2" parent="." unique_id=1923831646 instance=ExtResource("2_u88ny")]
+unique_name_in_owner = true
+position = Vector2(0, 0)
+collision_layer = 32
+collision_mask = 20
+is_ball_one = false
+colour_ball_one = Color(0.99607843, 0.5294118, 0.6392157, 1)
+colour_ball_two = Color(0.69411767, 0.56078434, 0.8117647, 1)
+speed = 75.0
+
+[node name="Polygon2D" parent="Ball2" index="0" unique_id=120437003]
+color = Color(0, 0, 1, 1)
+
+[node name="ScoreLeft" type="Label" parent="." unique_id=843175512]
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_colors/font_color = Color(0.67492676, 0.50851864, 0.048568636, 1)
+text = "26"
+
+[editable path="Ball1"]
+[editable path="Ball2"]
