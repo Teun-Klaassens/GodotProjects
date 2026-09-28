@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://7xfs482eugcd"]
+
+[ext_resource type="Script" uid="uid://bm4v5y2je3jag" path="res://scripts/box.gd" id="1_x8m4r"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_ovu3a"]
+size = Vector2(32, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xx7dv"]
+size = Vector2(96, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s2a5i"]
+size = Vector2(32, 32)
+
+[node name="TetrisBlock" type="RigidBody2D" unique_id=85677953]
+script = ExtResource("1_x8m4r")
+
+[node name="Visuals" type="Node2D" parent="." unique_id=414362610]
+
+[node name="Square1" type="MeshInstance2D" parent="Visuals" unique_id=1397804559]
+modulate = Color(0.15659484, 0.53906345, 0.93573314, 1)
+mesh = SubResource("QuadMesh_ovu3a")
+
+[node name="Square2" type="MeshInstance2D" parent="Visuals" unique_id=1923962007]
+modulate = Color(0.15659484, 0.53906345, 0.93573314, 1)
+position = Vector2(-64, 0)
+mesh = SubResource("QuadMesh_ovu3a")
+
+[node name="Square3" type="MeshInstance2D" parent="Visuals" unique_id=199247943]
+modulate = Color(0.15659484, 0.53906345, 0.93573314, 1)
+position = Vector2(32, 0)
+mesh = SubResource("QuadMesh_ovu3a")
+
+[node name="Square4" type="MeshInstance2D" parent="Visuals" unique_id=1853473274]
+modulate = Color(0.15659484, 0.53906345, 0.93573314, 1)
+position = Vector2(-32, 0)
+mesh = SubResource("QuadMesh_ovu3a")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1815738870]
+shape = SubResource("RectangleShape2D_xx7dv")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="." unique_id=1834401425]
+position = Vector2(-64, 0)
+shape = SubResource("RectangleShape2D_s2a5i")

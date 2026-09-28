@@ -2,16 +2,12 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ctpyg0h3x0qlm"
-path="res://.godot/imported/restaurant-table-clipart-xl.png-94a77890761f74f1df92b8bab90f4198.ctex"
-metadata={
-"vram_texture": false
-}
+uid="uid://cocg0dlo7ix34"
+valid=false
 
 [deps]
 
-source_file="res://assets/table/restaurant-table-clipart-xl.png"
-dest_files=["res://.godot/imported/restaurant-table-clipart-xl.png-94a77890761f74f1df92b8bab90f4198.ctex"]
+source_file="res://assets/background/tetris.jpg"
 
 [params]
 
