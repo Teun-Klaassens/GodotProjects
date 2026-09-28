@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://bddrd4lq3d0al"]
+
+[ext_resource type="Texture2D" uid="uid://h1h8ft2kfnyq" path="res://assets/background/cozy-living-room-with-pink-sofa-and-coffee-table-during-daytime-natural-light-free-vector.jpg" id="1_0wfyh"]
+[ext_resource type="PackedScene" uid="uid://5gpjgmhrlcmg" path="res://scenes/table.tscn" id="2_sugp2"]
+[ext_resource type="PackedScene" uid="uid://dsnx0ug6dcwgb" path="res://scenes/box.tscn" id="3_sugp2"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_1cg0m"]
+distance = -323.0
+
+[node name="Node2D" type="Node2D" unique_id=501105633]
+
+[node name="Background" type="Sprite2D" parent="." unique_id=2066632650]
+modulate = Color(1, 1, 1, 0.2901961)
+position = Vector2(-0.9299927, -2.5)
+scale = Vector2(1.82, 1.82)
+texture = ExtResource("1_0wfyh")
+
+[node name="Camera" type="Camera2D" parent="." unique_id=1094902250]
+
+[node name="Table" parent="." unique_id=1070042082 instance=ExtResource("2_sugp2")]
+position = Vector2(0, 115.999985)
+scale = Vector2(0.11167898, 0.15065433)
+
+[node name="Area2D" type="StaticBody2D" parent="." unique_id=1976492880]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1630402783]
+position = Vector2(223, 1)
+shape = SubResource("WorldBoundaryShape2D_1cg0m")
+
+[node name="box" parent="." unique_id=701793333 instance=ExtResource("3_sugp2")]
+position = Vector2(-364, -41)
