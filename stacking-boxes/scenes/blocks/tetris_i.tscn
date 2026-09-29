@@ -22,7 +22,7 @@ mesh = SubResource("QuadMesh_ovu3a")
 
 [node name="Square2" type="MeshInstance2D" parent="Visuals" unique_id=1923962007]
 modulate = Color(0.8691276, 0.30029172, 0.4701209, 1)
-position = Vector2(0, -32)
+position = Vector2(64, 0)
 mesh = SubResource("QuadMesh_ovu3a")
 
 [node name="Square3" type="MeshInstance2D" parent="Visuals" unique_id=199247943]
@@ -39,5 +39,5 @@ mesh = SubResource("QuadMesh_ovu3a")
 shape = SubResource("RectangleShape2D_xx7dv")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="." unique_id=1834401425]
-position = Vector2(0, -32)
+position = Vector2(64, 0)
 shape = SubResource("RectangleShape2D_s2a5i")

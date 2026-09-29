@@ -1,0 +1,64 @@
+[gd_scene format=3 uid="uid://bwe4ithn88p1b"]
+
+[ext_resource type="Script" uid="uid://bibl6yssrd5gf" path="res://scenes/prediction_world.gd" id="1_1bdi1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6e0xx"]
+size = Vector2(1148, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1bdi1"]
+size = Vector2(484, 15)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ovj23"]
+size = Vector2(118.25491, 21.05503)
+
+[sub_resource type="BoxMesh" id="BoxMesh_p3qoc"]
+
+[node name="PredictionWorld" type="SubViewport" unique_id=2134936602]
+size = Vector2i(640, 640)
+render_target_update_mode = 0
+script = ExtResource("1_1bdi1")
+
+[node name="Simulation" type="Node2D" parent="." unique_id=2003850193]
+
+[node name="Floor" type="StaticBody2D" parent="Simulation" unique_id=1124985670 groups=["Floor"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Simulation/Floor" unique_id=990406735]
+position = Vector2(0, 319)
+shape = SubResource("RectangleShape2D_6e0xx")
+
+[node name="Table" type="StaticBody2D" parent="Simulation" unique_id=1406707775]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Simulation/Table" unique_id=848853125]
+position = Vector2(-2, 244.5)
+shape = SubResource("RectangleShape2D_1bdi1")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Simulation/Table" unique_id=1965746538]
+position = Vector2(265.30484, 217.59766)
+rotation = 2.3561945
+scale = Vector2(0.6971253, 0.745392)
+shape = SubResource("RectangleShape2D_ovj23")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Simulation/Table" unique_id=749766676]
+position = Vector2(-267.49997, 217.49997)
+rotation = 0.7480672
+scale = Vector2(0.69712526, 0.745392)
+shape = SubResource("RectangleShape2D_ovj23")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Simulation/Table" unique_id=1839042435]
+position = Vector2(1, 245)
+scale = Vector2(484.00006, 16.5)
+mesh = SubResource("BoxMesh_p3qoc")
+
+[node name="MeshInstance2D2" type="MeshInstance2D" parent="Simulation/Table" unique_id=894467446]
+position = Vector2(-267.00003, 218.00002)
+rotation = 0.7534392
+scale = Vector2(84.00003, 16.5)
+mesh = SubResource("BoxMesh_p3qoc")
+
+[node name="MeshInstance2D3" type="MeshInstance2D" parent="Simulation/Table" unique_id=1023892946]
+position = Vector2(265, 218)
+rotation = 2.3561945
+scale = Vector2(84.00003, 16.5)
+mesh = SubResource("BoxMesh_p3qoc")
+
+[node name="SimulatedBlocks" type="Node2D" parent="." unique_id=1171624864]

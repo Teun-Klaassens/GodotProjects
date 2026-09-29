@@ -6,12 +6,18 @@
 [ext_resource type="PackedScene" uid="uid://cw17q0b66cit2" path="res://scenes/blocks/tetris_o.tscn" id="4_85g3d"]
 [ext_resource type="PackedScene" uid="uid://cfctr8vljlrsu" path="res://scenes/blocks/tetris_s.tscn" id="5_choun"]
 [ext_resource type="PackedScene" uid="uid://7xfs482eugcd" path="res://scenes/blocks/tetris_t.tscn" id="6_ya4ey"]
+[ext_resource type="PackedScene" uid="uid://bwe4ithn88p1b" path="res://scenes/prediction_world.tscn" id="7_o6xl0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tipki"]
 size = Vector2(1148, 20)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6gqvj"]
-size = Vector2(1149, 14)
+size = Vector2(484, 15)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1cg0m"]
+size = Vector2(118.25491, 21.05503)
+
+[sub_resource type="BoxMesh" id="BoxMesh_1cg0m"]
 
 [node name="Node2D" type="Node2D" unique_id=1439736805]
 script = ExtResource("1_o6xl0")
@@ -36,8 +42,39 @@ position = Vector2(0, -270)
 position = Vector2(0, 319)
 shape = SubResource("RectangleShape2D_tipki")
 
-[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1898069560]
+[node name="Table" type="StaticBody2D" parent="." unique_id=1898069560]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=879492866]
-position = Vector2(-1.5, 246)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Table" unique_id=879492866]
+position = Vector2(-2, 244.5)
 shape = SubResource("RectangleShape2D_6gqvj")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Table" unique_id=485504321]
+position = Vector2(265.30484, 217.59766)
+rotation = 2.3561945
+scale = Vector2(0.6971253, 0.745392)
+shape = SubResource("RectangleShape2D_1cg0m")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Table" unique_id=1013382492]
+position = Vector2(-267.49997, 217.49997)
+rotation = 0.7480672
+scale = Vector2(0.69712526, 0.745392)
+shape = SubResource("RectangleShape2D_1cg0m")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Table" unique_id=1831682728]
+position = Vector2(1, 245)
+scale = Vector2(484.00006, 16.5)
+mesh = SubResource("BoxMesh_1cg0m")
+
+[node name="MeshInstance2D2" type="MeshInstance2D" parent="Table" unique_id=454055288]
+position = Vector2(-267.00003, 218.00002)
+rotation = 0.7534392
+scale = Vector2(84.00003, 16.5)
+mesh = SubResource("BoxMesh_1cg0m")
+
+[node name="MeshInstance2D3" type="MeshInstance2D" parent="Table" unique_id=391632293]
+position = Vector2(265, 218)
+rotation = 2.3561945
+scale = Vector2(84.00003, 16.5)
+mesh = SubResource("BoxMesh_1cg0m")
+
+[node name="PredictionWorld" parent="." unique_id=2134936602 instance=ExtResource("7_o6xl0")]
