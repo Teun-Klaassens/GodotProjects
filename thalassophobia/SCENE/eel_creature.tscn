@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cwiyy2okk6e3e"]
+
+[ext_resource type="Script" path="res://SCRIPT/eel_creature.gd" id="1_eel"]
+
+[node name="EelCreature" type="Node3D"]
+script = ExtResource("1_eel")

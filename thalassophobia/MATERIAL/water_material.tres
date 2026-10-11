@@ -1,0 +1,37 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://cgyhe4ilvfmkt"]
+
+[ext_resource type="Shader" uid="uid://dlrdk30bylf3i" path="res://SHADER/water.gdshader" id="1_shader"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_shader")
+shader_parameter/shallow_color = Color(0.22, 0.42, 0.48, 1)
+shader_parameter/deep_abyss_color = Color(0.001, 0.004, 0.008, 1)
+shader_parameter/foam_color = Color(0.88, 0.93, 0.96, 1)
+shader_parameter/ambient_color = Color(0.07, 0.1, 0.13, 1)
+shader_parameter/diffuse_color = Color(0.18, 0.32, 0.38, 1)
+shader_parameter/specular_color = Color(0.82, 0.9, 0.98, 1)
+shader_parameter/sun_color = Color(0.55, 0.62, 0.72, 1)
+shader_parameter/sun_direction = Vector3(0.18, 0.96, 0.22)
+shader_parameter/specular_exponent = 180.0
+shader_parameter/fresnel_f0 = 0.02
+shader_parameter/visible_depth = 2.1
+shader_parameter/depth_falloff_steepness = 1.45
+shader_parameter/foam_distance = 0.45
+shader_parameter/foam_scale = 0.15
+shader_parameter/caustic_scale = 0.35
+shader_parameter/caustic_speed = 0.9
+shader_parameter/caustic_strength = 0.4
+shader_parameter/wave_height = 0.28
+shader_parameter/wave_time_scale = 1.0
+shader_parameter/base_wavelength = 42.0
+shader_parameter/base_speed = 1.35
+shader_parameter/octaves = 12
+shader_parameter/lacunarity = 1.18
+shader_parameter/persistence = 0.82
+shader_parameter/peak_sharpness = 1.35
+shader_parameter/domain_warp = 0.65
+shader_parameter/creature_position = Vector3(0, 0, 0)
+shader_parameter/creature_velocity = Vector3(0, 0, 0)
+shader_parameter/creature_disturbance_radius = 48.0
+shader_parameter/creature_surge_intensity = 0.0

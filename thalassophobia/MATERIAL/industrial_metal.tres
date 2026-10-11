@@ -1,0 +1,21 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://b128ye458smk4"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_metal"]
+noise_type = 2
+frequency = 0.05
+fractal_octaves = 3
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_rough"]
+noise = SubResource("FastNoiseLite_metal")
+seamless = true
+as_normal_map = true
+bump_strength = 2.0
+
+[resource]
+resource_name = "IndustrialMetal"
+albedo_color = Color(0.68, 0.72, 0.75, 1)
+metallic = 0.85
+roughness = 0.35
+roughness_texture = SubResource("NoiseTexture2D_rough")
+uv1_scale = Vector3(0.5, 0.5, 0.5)
+uv1_triplanar = true

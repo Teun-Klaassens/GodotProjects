@@ -1,0 +1,434 @@
+[gd_scene format=3 uid="uid://cydm5jtr1iy7a"]
+
+[ext_resource type="Script" uid="uid://8fqjps6ga2ok" path="res://SCRIPT/chamber.gd" id="1_chamber"]
+[ext_resource type="PackedScene" uid="uid://df6y7k3m8w1op" path="res://SCENE/player.tscn" id="2_player"]
+[ext_resource type="Material" uid="uid://b128ye458smk4" path="res://MATERIAL/industrial_metal.tres" id="3_metal"]
+[ext_resource type="Material" uid="uid://bddrwfa43vavb" path="res://MATERIAL/bathroom_tiles.tres" id="4_tiles"]
+[ext_resource type="PackedScene" uid="uid://da14eqdntwtvo" path="res://SCENE/ceiling_light.tscn" id="5_light"]
+[ext_resource type="Material" uid="uid://cgyhe4ilvfmkt" path="res://MATERIAL/water_material.tres" id="6_water_mat"]
+[ext_resource type="AudioStream" uid="uid://e3xjw5vmbcwx" path="res://SOUND/tanweraman-under-water-sound-effect-for-movies-and-videos-343060.mp3" id="7_underwater_sfx"]
+[ext_resource type="Material" path="res://MATERIAL/abyss_black.tres" id="8_abyss"]
+[ext_resource type="PackedScene" uid="uid://cwiyy2okk6e3e" path="res://SCENE/eel_creature.tscn" id="9_eel"]
+[ext_resource type="Script" uid="uid://c0rvgjcwp2o8x" path="res://SCRIPT/flicker_controller.gd" id="10_flicker"]
+[ext_resource type="Script" uid="uid://cjue7u545a1dy" path="res://SCRIPT/water_displacement.gd" id="12_displacement"]
+[ext_resource type="AudioStream" uid="uid://egxg22iv8eik" path="res://SOUND/arpmedia-horror-ambience-569511.mp3" id="13_ambience"]
+[ext_resource type="PackedScene" uid="uid://dkg7os0xpera3" path="res://SCENE/ceiling_drips.tscn" id="14_drips"]
+[ext_resource type="PackedScene" uid="uid://cxr1tc3kksm77" path="res://SCENE/water_motes.tscn" id="15_motes"]
+[ext_resource type="PackedScene" uid="uid://ds6p3ur8465aa" path="res://SCENE/industrial_intake_pipe.tscn" id="16_pipe"]
+[ext_resource type="PackedScene" uid="uid://heavydoor001" path="res://SCENE/heavy_door.tscn" id="17_door"]
+[ext_resource type="PackedScene" uid="uid://ds33k2y5mcuya" path="res://SCENE/starting_room_light.tscn" id="18_dimlight"]
+[ext_resource type="PackedScene" uid="uid://cp7tmmvwjp0ie" path="res://SCENE/support_pylon.tscn" id="19_pylon"]
+[ext_resource type="PackedScene" uid="uid://drwxfc0ajbwd5" path="res://SCENE/drainage_grate.tscn" id="20_grate"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sky"]
+sky_horizon_color = Color(0.1, 0.14, 0.18, 1)
+ground_bottom_color = Color(0.005, 0.005, 0.01, 1)
+ground_horizon_color = Color(0.02, 0.03, 0.05, 1)
+
+[sub_resource type="Sky" id="Sky_env"]
+sky_material = SubResource("ProceduralSkyMaterial_sky")
+
+[sub_resource type="Environment" id="Environment_main"]
+background_mode = 2
+sky = SubResource("Sky_env")
+ambient_light_source = 2
+ambient_light_color = Color(0.18, 0.22, 0.26, 1)
+tonemap_mode = 2
+ssr_enabled = true
+ssr_depth_tolerance = 0.2
+glow_enabled = true
+glow_bloom = 0.15
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.003
+volumetric_fog_albedo = Color(0.12, 0.16, 0.2, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_water"]
+material = ExtResource("6_water_mat")
+size = Vector2(1200, 2250)
+subdivide_width = 280
+subdivide_depth = 420
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ladder"]
+albedo_color = Color(0.4, 0.45, 0.5, 1)
+metallic = 0.9
+roughness = 0.4
+
+[sub_resource type="BoxMesh" id="BoxMesh_ladder_rail"]
+material = SubResource("StandardMaterial3D_ladder")
+size = Vector3(0.08, 16, 0.08)
+
+[node name="Main" type="Node3D" unique_id=1146325843]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=2108992730]
+environment = SubResource("Environment_main")
+
+[node name="HorrorAmbience" type="AudioStreamPlayer" parent="." unique_id=1364419083]
+stream = ExtResource("13_ambience")
+volume_db = -2.0
+autoplay = true
+
+[node name="CeilingDrips" parent="." unique_id=1481572202 instance=ExtResource("14_drips")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 69, 0)
+
+[node name="Chamber" type="Node3D" parent="." unique_id=1087103277]
+script = ExtResource("1_chamber")
+chamber_width = 1200.0
+chamber_length = 2250.0
+chamber_height = 195.0
+walkway_length = 300.0
+
+[node name="Floor" type="CSGBox3D" parent="Chamber" unique_id=1626707633]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -120, 0)
+use_collision = true
+size = Vector3(1200, 2, 2250)
+material = ExtResource("8_abyss")
+
+[node name="LeftWall" type="CSGBox3D" parent="Chamber" unique_id=822834819]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -600, -25, 0)
+use_collision = true
+size = Vector3(2, 195, 2250)
+material = ExtResource("4_tiles")
+
+[node name="RightWall" type="CSGBox3D" parent="Chamber" unique_id=1113095758]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 600, -25, 0)
+use_collision = true
+size = Vector3(2, 195, 2250)
+material = ExtResource("4_tiles")
+
+[node name="BackWall" type="CSGBox3D" parent="Chamber" unique_id=324151626]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -25, -1125)
+use_collision = true
+size = Vector3(1200, 195, 2)
+material = ExtResource("4_tiles")
+
+[node name="FrontWall" type="CSGBox3D" parent="Chamber" unique_id=313633272]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -25, 1125)
+use_collision = true
+size = Vector3(1200, 195, 2)
+material = ExtResource("4_tiles")
+
+[node name="DoorwayCutout" type="CSGBox3D" parent="Chamber/FrontWall" unique_id=1988472611]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 27.6, 0)
+operation = 2
+size = Vector3(2.4, 3.2, 6)
+
+[node name="Ceiling" type="CSGBox3D" parent="Chamber" unique_id=1824853949]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 70, 0)
+use_collision = true
+size = Vector3(1200, 2, 2250)
+material = ExtResource("3_metal")
+
+[node name="WalkwaySegments" type="Node3D" parent="Chamber" unique_id=594085230]
+
+[node name="Walkway_SouthEntry" type="CSGBox3D" parent="Chamber/WalkwaySegments" unique_id=665544264]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 662.5)
+use_collision = true
+size = Vector3(2, 0.5, 925)
+material = ExtResource("4_tiles")
+
+[node name="Turn1_Eastbound" type="CSGBox3D" parent="Chamber/WalkwaySegments" unique_id=1653693504]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 37.5, 1, 200)
+use_collision = true
+size = Vector3(77, 0.5, 2)
+material = ExtResource("4_tiles")
+
+[node name="Turn2_Northbound" type="CSGBox3D" parent="Chamber/WalkwaySegments" unique_id=1576264159]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 75, 1, 60)
+use_collision = true
+size = Vector3(2, 0.5, 282)
+material = ExtResource("4_tiles")
+
+[node name="Turn3_WestboundCrossing" type="CSGBox3D" parent="Chamber/WalkwaySegments" unique_id=851037623]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 1, -80)
+use_collision = true
+size = Vector3(137, 0.5, 2)
+material = ExtResource("4_tiles")
+
+[node name="Turn3_SubmergedDip" type="CSGBox3D" parent="Chamber/WalkwaySegments" unique_id=1274145510]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 0.2, -80)
+use_collision = true
+size = Vector3(45, 0.5, 2.2)
+material = ExtResource("4_tiles")
+
+[node name="Turn4_NorthboundAbyss" type="CSGBox3D" parent="Chamber/WalkwaySegments" unique_id=56122113]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -60, 1, -215)
+use_collision = true
+size = Vector3(2, 0.5, 272)
+material = ExtResource("4_tiles")
+
+[node name="StartingRoom" type="Node3D" parent="." unique_id=1487630699]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1128.5)
+
+[node name="RoomFloor" type="CSGBox3D" parent="StartingRoom" unique_id=1880166304]
+use_collision = true
+size = Vector3(6, 0.5, 7)
+material = ExtResource("4_tiles")
+
+[node name="RoomCeiling" type="CSGBox3D" parent="StartingRoom" unique_id=1296714416]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+use_collision = true
+size = Vector3(6, 0.5, 7)
+material = ExtResource("3_metal")
+
+[node name="RoomWallBack" type="CSGBox3D" parent="StartingRoom" unique_id=1163585052]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 3.5)
+use_collision = true
+size = Vector3(6, 4, 0.5)
+material = ExtResource("4_tiles")
+
+[node name="RoomWallLeft" type="CSGBox3D" parent="StartingRoom" unique_id=1214989264]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 2, 0)
+use_collision = true
+size = Vector3(0.5, 4, 7)
+material = ExtResource("4_tiles")
+
+[node name="RoomWallRight" type="CSGBox3D" parent="StartingRoom" unique_id=1562300224]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 2, 0)
+use_collision = true
+size = Vector3(0.5, 4, 7)
+material = ExtResource("4_tiles")
+
+[node name="RoomWallFrontLeft" type="CSGBox3D" parent="StartingRoom" unique_id=1244703493]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 2, -3.5)
+use_collision = true
+size = Vector3(2, 4, 0.5)
+material = ExtResource("4_tiles")
+
+[node name="RoomWallFrontRight" type="CSGBox3D" parent="StartingRoom" unique_id=2036120475]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 2, -3.5)
+use_collision = true
+size = Vector3(2, 4, 0.5)
+material = ExtResource("4_tiles")
+
+[node name="RoomWallFrontTop" type="CSGBox3D" parent="StartingRoom" unique_id=71473874]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, -3.5)
+use_collision = true
+size = Vector3(2, 1, 0.5)
+material = ExtResource("4_tiles")
+
+[node name="DimRoomLight" parent="StartingRoom" unique_id=225445824 instance=ExtResource("18_dimlight")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.6, 0)
+
+[node name="HeavyDoor" parent="StartingRoom" unique_id=1895417187 instance=ExtResource("17_door")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.5)
+
+[node name="WaterPlane" type="MeshInstance3D" parent="." unique_id=1739917189]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("PlaneMesh_water")
+
+[node name="WaterMotes" parent="WaterPlane" unique_id=2139946654 instance=ExtResource("15_motes")]
+
+[node name="WaterAudio" type="AudioStreamPlayer3D" parent="WaterPlane" unique_id=679972140]
+stream = ExtResource("7_underwater_sfx")
+unit_size = 50.0
+autoplay = true
+max_distance = 400.0
+
+[node name="DisplacementController" type="Node3D" parent="WaterPlane" unique_id=2129420269 node_paths=PackedStringArray("water_mesh")]
+script = ExtResource("12_displacement")
+water_mesh = NodePath("..")
+
+[node name="Infrastructure" type="Node3D" parent="." unique_id=967966673]
+
+[node name="Pylon_Turn1" parent="Infrastructure" unique_id=1095547429 instance=ExtResource("19_pylon")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -25, 200)
+
+[node name="Pylon_Turn2" parent="Infrastructure" unique_id=373912151 instance=ExtResource("19_pylon")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 75, -25, 200)
+
+[node name="Pylon_Turn3" parent="Infrastructure" unique_id=115387706 instance=ExtResource("19_pylon")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 75, -25, -80)
+
+[node name="Pylon_Turn4" parent="Infrastructure" unique_id=2052085729 instance=ExtResource("19_pylon")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -60, -25, -80)
+
+[node name="Pylon_EastDeep1" parent="Infrastructure" unique_id=2029771405 instance=ExtResource("19_pylon")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 240, -25, 100)
+
+[node name="Pylon_WestDeep1" parent="Infrastructure" unique_id=1413937227 instance=ExtResource("19_pylon")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -220, -25, -150)
+
+[node name="Pylon_NorthDeep" parent="Infrastructure" unique_id=2126116660 instance=ExtResource("19_pylon")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -25, -450)
+
+[node name="DrainageGrate1" parent="Infrastructure" unique_id=1044311752 instance=ExtResource("20_grate")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35, -0.6, 120)
+
+[node name="DrainageGrate2" parent="Infrastructure" unique_id=1999288745 instance=ExtResource("20_grate")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, -0.6, -140)
+
+[node name="DrainageGrate3" parent="Infrastructure" unique_id=236917197 instance=ExtResource("20_grate")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 140, -0.6, -20)
+
+[node name="PipeColossalCenter" parent="Infrastructure" unique_id=489732809 instance=ExtResource("16_pipe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 46, 60)
+outer_radius = 7.5
+inner_radius = 6.6
+pipe_height = 48.0
+
+[node name="PipeGargantuan" parent="Infrastructure" unique_id=860145098 instance=ExtResource("16_pipe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45, 45, -60)
+outer_radius = 6.2
+inner_radius = 5.4
+pipe_height = 50.0
+
+[node name="PipeMediumNorth" parent="Infrastructure" unique_id=1883575952 instance=ExtResource("16_pipe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 120, 43, -120)
+outer_radius = 4.2
+inner_radius = 3.6
+pipe_height = 54.0
+
+[node name="PipeSlenderEast" parent="Infrastructure" unique_id=1774787221 instance=ExtResource("16_pipe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 110, 41, 240)
+outer_radius = 2.4
+inner_radius = 1.9
+pipe_height = 58.0
+
+[node name="PipeWestMid" parent="Infrastructure" unique_id=849891608 instance=ExtResource("16_pipe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -95, 44, 180)
+outer_radius = 4.8
+inner_radius = 4.0
+
+[node name="PipeFarNorth" parent="Infrastructure" unique_id=1131437583 instance=ExtResource("16_pipe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 46, -320)
+outer_radius = 5.2
+inner_radius = 4.4
+pipe_height = 48.0
+
+[node name="PipeSouthInlet" parent="Infrastructure" unique_id=1653432828 instance=ExtResource("16_pipe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 44, 450)
+outer_radius = 3.5
+inner_radius = 2.9
+
+[node name="PipeSouthEast" parent="Infrastructure" unique_id=894383279 instance=ExtResource("16_pipe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50, 45, 680)
+outer_radius = 4.2
+inner_radius = 3.5
+pipe_height = 50.0
+
+[node name="PipeAbyssWest" parent="Infrastructure" unique_id=1257905856 instance=ExtResource("16_pipe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -180, 43, -80)
+outer_radius = 5.5
+inner_radius = 4.7
+pipe_height = 54.0
+
+[node name="PipeAbyssNorth" parent="Infrastructure" unique_id=1170159153 instance=ExtResource("16_pipe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -120, 46, -480)
+outer_radius = 6.0
+inner_radius = 5.2
+pipe_height = 48.0
+
+[node name="PoolLadder_Turn1" type="MeshInstance3D" parent="Infrastructure" unique_id=2096417116]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.05, -6.5, 202)
+mesh = SubResource("BoxMesh_ladder_rail")
+
+[node name="PoolLadder_Turn2" type="MeshInstance3D" parent="Infrastructure" unique_id=462037189]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 76.05, -6.5, 198)
+mesh = SubResource("BoxMesh_ladder_rail")
+
+[node name="PoolLadder_Turn3" type="MeshInstance3D" parent="Infrastructure" unique_id=393871188]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 76.05, -6.5, -82)
+mesh = SubResource("BoxMesh_ladder_rail")
+
+[node name="PoolLadder_Dip" type="MeshInstance3D" parent="Infrastructure" unique_id=659948885]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, -6.5, -78.8)
+mesh = SubResource("BoxMesh_ladder_rail")
+
+[node name="PoolLadder_End" type="MeshInstance3D" parent="Infrastructure" unique_id=2007201116]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -61.05, -6.5, -345)
+mesh = SubResource("BoxMesh_ladder_rail")
+
+[node name="EelCreature" parent="." unique_id=484490170 instance=ExtResource("9_eel")]
+
+[node name="CeilingLights" type="Node3D" parent="." unique_id=160984489]
+script = ExtResource("10_flicker")
+
+[node name="Light_x-180_z-600" parent="CeilingLights" unique_id=2109246327 instance=ExtResource("5_light")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -180, 69, -600)
+
+[node name="Light_x0_z-600" parent="CeilingLights" unique_id=10964865 instance=ExtResource("5_light")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 69, -600)
+
+[node name="Light_x180_z-600" parent="CeilingLights" unique_id=1886986042 instance=ExtResource("5_light")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 180, 69, -600)
+
+[node name="Light_x-90_z-420" parent="CeilingLights" unique_id=1458397477 instance=ExtResource("5_light")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -90, 69, -420)
+
+[node name="Light_x90_z-420" parent="CeilingLights" unique_id=1191148302 instance=ExtResource("5_light")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 90, 69, -420)
+
+[node name="Light_x-180_z-240" parent="CeilingLights" unique_id=3797782 instance=ExtResource("5_light")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -180, 69, -240)
+
+[node name="Light_x0_z-240" parent="CeilingLights" unique_id=1237734319 instance=ExtResource("5_light")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 69, -240)
+
+[node name="Light_x180_z-240" parent="CeilingLights" unique_id=838916045 instance=ExtResource("5_light")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 180, 69, -240)
+
+[node name="Light_x-90_z-80" parent="CeilingLights" unique_id=78029396 instance=ExtResource("5_light")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -90, 69, -80)
+
+[node name="Light_x0_z-80" parent="CeilingLights" unique_id=267254197 instance=ExtResource("5_light")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 69, -80)
+
+[node name="Light_x90_z-80" parent="CeilingLights" unique_id=1171342232 instance=ExtResource("5_light")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 90, 69, -80)
+
+[node name="Light_x-180_z60" parent="CeilingLights" unique_id=1544078798 instance=ExtResource("5_light")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -180, 69, 60)
+
+[node name="Light_x0_z60" parent="CeilingLights" unique_id=1745124717 instance=ExtResource("5_light")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 69, 60)
+
+[node name="Light_x180_z60" parent="CeilingLights" unique_id=1125252553 instance=ExtResource("5_light")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 180, 69, 60)
+
+[node name="Light_x-90_z200" parent="CeilingLights" unique_id=1304035836 instance=ExtResource("5_light")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -90, 69, 200)
+
+[node name="Light_x0_z200" parent="CeilingLights" unique_id=248952397 instance=ExtResource("5_light")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 69, 200)
+
+[node name="Light_x90_z200" parent="CeilingLights" unique_id=741782676 instance=ExtResource("5_light")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 90, 69, 200)
+
+[node name="Light_x-180_z360" parent="CeilingLights" unique_id=81840789 instance=ExtResource("5_light")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -180, 69, 360)
+
+[node name="Light_x0_z360" parent="CeilingLights" unique_id=1079042474 instance=ExtResource("5_light")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 69, 360)
+
+[node name="Light_x180_z360" parent="CeilingLights" unique_id=750216874 instance=ExtResource("5_light")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 180, 69, 360)
+
+[node name="Light_x-90_z540" parent="CeilingLights" unique_id=437997869 instance=ExtResource("5_light")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -90, 69, 540)
+
+[node name="Light_x90_z540" parent="CeilingLights" unique_id=497418845 instance=ExtResource("5_light")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 90, 69, 540)
+
+[node name="Light_x-180_z720" parent="CeilingLights" unique_id=1212168945 instance=ExtResource("5_light")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -180, 69, 720)
+
+[node name="Light_x0_z720" parent="CeilingLights" unique_id=1565965211 instance=ExtResource("5_light")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 69, 720)
+
+[node name="Light_x180_z720" parent="CeilingLights" unique_id=878346865 instance=ExtResource("5_light")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 180, 69, 720)
+
+[node name="Light_x-90_z900" parent="CeilingLights" unique_id=2034266512 instance=ExtResource("5_light")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -90, 69, 900)
+
+[node name="Light_x0_z900" parent="CeilingLights" unique_id=816702906 instance=ExtResource("5_light")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 69, 900)
+
+[node name="Light_x90_z900" parent="CeilingLights" unique_id=242509840 instance=ExtResource("5_light")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 90, 69, 900)
+
+[node name="Light_x0_z1050" parent="CeilingLights" unique_id=413070960 instance=ExtResource("5_light")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 69, 1050)
+
+[node name="Player" parent="." unique_id=1513399875 instance=ExtResource("2_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 1128.5)

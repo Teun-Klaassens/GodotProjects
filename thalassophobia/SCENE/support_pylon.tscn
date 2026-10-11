@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://cp7tmmvwjp0ie"]
+
+[ext_resource type="Material" path="res://MATERIAL/bathroom_tiles.tres" id="1_tiles"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pylon"]
+size = Vector3(6.0, 190.0, 6.0)
+
+[sub_resource type="BoxMesh" id="BoxMesh_pylon"]
+material = ExtResource("1_tiles")
+size = Vector3(6.0, 190.0, 6.0)
+
+[node name="SupportPylon" type="StaticBody3D"]
+collision_layer = 1
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_pylon")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_pylon")

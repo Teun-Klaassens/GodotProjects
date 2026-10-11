@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://6fgep2hoepkb"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_qexrc"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_wv52o"]
+sky_material = SubResource("ProceduralSkyMaterial_qexrc")
+
+[sub_resource type="Environment" id="Environment_nx0ub"]
+background_mode = 2
+sky = SubResource("Sky_wv52o")
+glow_enabled = true
+
+[node name="The Reservoir" type="Node3D" unique_id=627858756]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1540839693]
+environment = SubResource("Environment_nx0ub")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=694958344]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Environment" type="Node3D" parent="." unique_id=402575842]
+
+[node name="Chamber" type="Node3D" parent="Environment" unique_id=1895146673]
+
+[node name="Water" type="Node3D" parent="Environment" unique_id=1041360546]
+
+[node name="Walkway" type="Node3D" parent="Environment" unique_id=687231777]
+
+[node name="Player" type="CharacterBody3D" parent="." unique_id=1814937198]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player" unique_id=1062774856]
+
+[node name="Head" type="Node3D" parent="Player/CollisionShape3D" unique_id=444666768]
+
+[node name="Camera3D" type="Camera3D" parent="Player/CollisionShape3D/Head" unique_id=682202951]
+
+[node name="Flashlight" type="SpotLight3D" parent="Player/CollisionShape3D/Head" unique_id=577704762]
+
+[node name="Audio" type="Node3D" parent="." unique_id=964032924]
