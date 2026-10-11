@@ -15,15 +15,17 @@ const KEYWORDS := {"vespasian": "vespasian", "augustus": "auguste"}
 
 # The first statues use these fixed spots (when "use_preset_positions" is on).
 const PRESETS := [
-	{"kind": "vespasian", "pos": Vector2(-75.0, 470.0)},
-	{"kind": "augustus", "pos": Vector2(170.0, -20.0)},
+	{"kind": "vespasian", "pos": Vector2(-45.0, 960.0)},
+	{"kind": "augustus", "pos": Vector2(65.0, 860.0)},
 ]
 # Walkway centre line (x, z), used to keep random statues away from the path.
 const WALKWAY := [
-	Vector2(0.0, 1128.0), Vector2(0.0, 200.0), Vector2(75.0, 200.0),
-	Vector2(75.0, -80.0), Vector2(-60.0, -80.0), Vector2(-60.0, -351.0),
+	Vector2(0.0, 1128.0), Vector2(0.0, 1075.0), Vector2(20.0, 1025.0),
+	Vector2(40.0, 985.0), Vector2(10.0, 945.0), Vector2(-20.0, 915.0),
+	Vector2(-40.0, 885.0), Vector2(-60.0, 848.0), Vector2(-10.0, 848.0),
+	Vector2(-10.0, 826.0), Vector2(32.0, 808.0),
 ]
-const FACE_POINT := Vector3(0.0, 0.0, 900.0) # where statues look at before tracking starts
+const FACE_POINT := Vector3(0.0, 0.0, 1000.0) # where statues look at before tracking starts
 const MAX_TRIES := 80
 
 # Changing these needs the statues to be placed again; everything else updates live.
@@ -41,9 +43,10 @@ const PARAM_DEFS := [
 	{"name": "random_seed", "label": "Layout seed", "group": "Layout", "type": "int", "min": 0, "max": 9999, "step": 1, "default": 1},
 	{"name": "augustus_share", "label": "Share that are Augustus (heavy model)", "group": "Layout", "type": "float", "min": 0.0, "max": 1.0, "step": 0.05, "default": 0.5},
 	{"name": "area_center_x", "label": "Spawn area center X", "group": "Layout", "type": "float", "min": -550.0, "max": 550.0, "step": 5.0, "default": 0.0},
-	{"name": "area_center_z", "label": "Spawn area center Z", "group": "Layout", "type": "float", "min": -1050.0, "max": 1050.0, "step": 5.0, "default": 300.0},
-	{"name": "area_half_width", "label": "Spawn area half-width (X)", "group": "Layout", "type": "float", "min": 10.0, "max": 590.0, "step": 5.0, "default": 400.0},
-	{"name": "area_half_length", "label": "Spawn area half-length (Z)", "group": "Layout", "type": "float", "min": 10.0, "max": 1050.0, "step": 5.0, "default": 700.0},
+	{"name": "area_center_z", "label": "Spawn area center Z", "group": "Layout", "type": "float", "min": -1050.0, "max": 1050.0, "step": 5.0, "default": 900.0},
+	{"name": "area_half_width", "label": "Spawn area half-width (X)", "group": "Layout", "type": "float", "min": 10.0, "max": 590.0, "step": 5.0, "default": 180.0},
+	{"name": "area_half_length", "label": "Spawn area half-length (Z)", "group": "Layout", "type": "float", "min": 10.0, "max": 1050.0, "step": 5.0, "default": 200.0},
+
 	{"name": "min_walkway_distance", "label": "Min distance from walkway", "group": "Layout", "type": "float", "min": 0.0, "max": 250.0, "step": 1.0, "default": 50.0},
 	{"name": "min_spacing", "label": "Min spacing between statues", "group": "Layout", "type": "float", "min": 0.0, "max": 400.0, "step": 1.0, "default": 90.0},
 	# ---- Size

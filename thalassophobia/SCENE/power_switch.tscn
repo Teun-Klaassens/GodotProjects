@@ -1,0 +1,63 @@
+[gd_scene format=3 uid="uid://c5ca6bfs26ups"]
+
+[ext_resource type="Script" path="res://SCRIPT/power_switch.gd" id="1_script"]
+[ext_resource type="Material" path="res://MATERIAL/industrial_metal.tres" id="2_metal"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_stand"]
+size = Vector3(0.9, 1.6, 0.6)
+
+[sub_resource type="BoxMesh" id="BoxMesh_stand"]
+material = ExtResource("2_metal")
+size = Vector3(0.7, 1.4, 0.4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_panel_face"]
+albedo_color = Color(0.12, 0.14, 0.16, 1)
+metallic = 0.8
+roughness = 0.4
+
+[sub_resource type="BoxMesh" id="BoxMesh_box"]
+material = SubResource("StandardMaterial3D_panel_face")
+size = Vector3(0.5, 0.7, 0.25)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_handle"]
+albedo_color = Color(0.85, 0.7, 0.1, 1)
+metallic = 0.6
+roughness = 0.3
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_lever"]
+material = SubResource("StandardMaterial3D_handle")
+top_radius = 0.04
+bottom_radius = 0.04
+height = 0.35
+
+[node name="PowerSwitch" type="StaticBody3D" node_paths=PackedStringArray("lever_mesh", "indicator_light")]
+collision_layer = 1
+collision_mask = 2
+script = ExtResource("1_script")
+lever_mesh = NodePath("PanelBox/LeverPivot/LeverMesh")
+indicator_light = NodePath("PanelBox/IndicatorLight")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+shape = SubResource("BoxShape3D_stand")
+
+[node name="StandMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
+mesh = SubResource("BoxMesh_stand")
+
+[node name="PanelBox" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0.15)
+mesh = SubResource("BoxMesh_box")
+
+[node name="IndicatorLight" type="OmniLight3D" parent="PanelBox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0.16)
+light_color = Color(1, 0.6, 0.05, 1)
+light_energy = 1.0
+omni_range = 3.5
+
+[node name="LeverPivot" type="Node3D" parent="PanelBox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0.14)
+
+[node name="LeverMesh" type="MeshInstance3D" parent="PanelBox/LeverPivot"]
+transform = Transform3D(1, 0, 0, 0, 0.819152, 0.573576, 0, -0.573576, 0.819152, 0, 0.12, 0)
+mesh = SubResource("CylinderMesh_lever")

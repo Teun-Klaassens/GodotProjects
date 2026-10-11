@@ -16,8 +16,51 @@ func _ready() -> void:
 		lights.append(child)
 	next_surge_interval = randf_range(20.0, 32.0)
 
+var is_progressive_blackout: bool = false
+var progressive_timer: float = 0.0
+var progressive_speed: float = 80.0 # meters per second wave towards player
+var wave_origin_z: float = -600.0
+var target_player_z: float = 900.0
+
+func trigger_progressive_blackout(origin_z: float = -600.0) -> void:
+	is_progressive_blackout = true
+	progressive_timer = 0.0
+	wave_origin_z = origin_z
+	var p := get_tree().get_first_node_in_group("player") as Node3D
+	target_player_z = p.global_position.z if p else 900.0
+
 func _process(delta: float) -> void:
+	if is_progressive_blackout:
+		progressive_timer += delta
+		var wave_current_z: float = wave_origin_z + progressive_timer * progressive_speed
+		var any_lit := false
+
+		for light_node in lights:
+			var light: OmniLight3D = light_node.get_node_or_null("Light")
+			var mesh: MeshInstance3D = light_node.get_node_or_null("FixtureMesh")
+			if light == null:
+				continue
+
+			# If the darkness wave has reached or passed this light's Z position, shut it off
+			if light_node.global_position.z <= wave_current_z:
+				light.visible = false
+				if mesh:
+					mesh.visible = false
+			else:
+				light.visible = true
+				if mesh:
+					mesh.visible = true
+				any_lit = true
+
+		if not any_lit or wave_current_z > target_player_z + 40.0:
+			# Complete darkness reached! Trigger huge splash and reset after 4s
+			if progressive_timer > 3.5:
+				is_progressive_blackout = false
+				_set_all_lights(true)
+		return
+
 	surge_timer += delta
+
 
 	# Check if it's time for a synchronized full-room blackout surge
 	if not is_surge_active and surge_timer >= next_surge_interval:

@@ -28,6 +28,11 @@ func is_open() -> bool:
 	return panel != null and panel.visible
 
 
+func show_panel() -> void:
+	if panel:
+		_set_open(true)
+
+
 func _input(event: InputEvent) -> void:
 	if panel == null:
 		return

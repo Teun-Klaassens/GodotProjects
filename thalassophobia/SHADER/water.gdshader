@@ -234,12 +234,23 @@ void fragment() {
 	vec3 ndc = vec3(SCREEN_UV * 2.0 - 1.0, depth_val);
 	vec4 view_coords = INV_PROJECTION_MATRIX * vec4(ndc, 1.0);
 	view_coords.xyz /= view_coords.w;
-	float water_depth = max(0.0, -view_coords.z - VERTEX.z);
+	float raw_dist = -view_coords.z - VERTEX.z;
+	float water_depth = max(0.0, raw_dist);
+
+	// If looking from underneath the water surface or depth buffer has no geometry behind, treat as deep water
+	if (!FRONT_FACING || raw_dist < 0.0) {
+		water_depth = 12.0;
+	}
 
 	float depth_factor = 1.0 - exp(-water_depth * (2.4 / max(visible_depth, 0.05)));
 	depth_factor = clamp(pow(depth_factor, depth_falloff_steepness), 0.0, 1.0);
 
-	vec2 refract_uv = clamp(SCREEN_UV + N.xz * mix(refraction_strength, refraction_strength * 0.133, depth_factor), vec2(0.001), vec2(0.999));
+	// Safe refraction: don't displace UV if raw_dist is negative or very small
+	vec2 refr_offset = N.xz * mix(refraction_strength, refraction_strength * 0.133, depth_factor);
+	if (raw_dist < 0.05) {
+		refr_offset *= 0.0;
+	}
+	vec2 refract_uv = clamp(SCREEN_UV + refr_offset, vec2(0.001), vec2(0.999));
 	vec3 scene_underwater = textureLod(screen_texture, refract_uv, 0.0).rgb;
 	scene_underwater *= shallow_color.rgb;
 	float caustic_val = get_caustics(v_world_pos.xz, TIME * caustic_speed);

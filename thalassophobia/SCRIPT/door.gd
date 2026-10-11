@@ -36,6 +36,9 @@ func _setup_door_audio() -> void:
 	audio_player.play()
 	audio_playback = audio_player.get_stream_playback() as AudioStreamGeneratorPlayback
 
+func get_prompt() -> String:
+	return "[E] " + ("Close Heavy Door" if is_open else "Open Heavy Door")
+
 func interact() -> void:
 	if is_moving:
 		return
@@ -44,6 +47,9 @@ func interact() -> void:
 	motor_sound_active = true
 	sound_timer = 0.0
 	_play_latch_clunk()
+	var ha = load("res://SCRIPT/horror_audio.gd")
+	if ha:
+		ha.play_3d(self, "door_creak", global_position, -2.0)
 
 func _physics_process(delta: float) -> void:
 	if not is_moving:

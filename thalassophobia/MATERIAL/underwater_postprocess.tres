@@ -1,0 +1,16 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://6pcpwbxkkfs7"]
+
+[ext_resource type="Shader" path="res://SHADER/underwater_postprocess.gdshader" id="1_shader"]
+
+[resource]
+render_priority = 10
+shader = ExtResource("1_shader")
+shader_parameter/water_fog_color = Color(0.063, 0.231, 0.251, 1)
+shader_parameter/deep_water_color = Color(0.027, 0.122, 0.161, 1)
+shader_parameter/absorption = Vector3(0.32, 0.085, 0.055)
+shader_parameter/scattering_strength = 0.85
+shader_parameter/fog_density = 0.12
+shader_parameter/underwater_blend = 0.0
+shader_parameter/wave_distortion_strength = 0.007
+shader_parameter/wave_speed = 1.6
+shader_parameter/caustic_intensity = 0.25

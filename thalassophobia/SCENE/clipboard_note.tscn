@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://b8noteclip001"]
+
+[ext_resource type="Script" path="res://SCRIPT/note_interactable.gd" id="1_note"]
+[ext_resource type="Material" path="res://MATERIAL/industrial_metal.tres" id="2_metal"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_note"]
+size = Vector3(0.5, 0.6, 0.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_board"]
+material = ExtResource("2_metal")
+size = Vector3(0.4, 0.55, 0.04)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_paper"]
+albedo_color = Color(0.9, 0.88, 0.78, 1)
+roughness = 0.8
+
+[sub_resource type="BoxMesh" id="BoxMesh_paper"]
+material = SubResource("StandardMaterial3D_paper")
+size = Vector3(0.34, 0.48, 0.02)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_clip"]
+albedo_color = Color(0.7, 0.7, 0.75, 1)
+metallic = 0.9
+roughness = 0.2
+
+[sub_resource type="BoxMesh" id="BoxMesh_clip"]
+material = SubResource("StandardMaterial3D_clip")
+size = Vector3(0.14, 0.06, 0.06)
+
+[node name="ClipboardNote" type="StaticBody3D"]
+collision_layer = 1
+collision_mask = 2
+script = ExtResource("1_note")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_note")
+
+[node name="BoardMesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_board")
+
+[node name="PaperMesh" type="MeshInstance3D" parent="BoardMesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.025)
+mesh = SubResource("BoxMesh_paper")
+
+[node name="ClipMesh" type="MeshInstance3D" parent="BoardMesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.23, 0.04)
+mesh = SubResource("BoxMesh_clip")

@@ -107,3 +107,36 @@ func _process(_delta: float) -> void:
 
 		var s := (sub + churn) * 0.8
 		audio_playback.push_frame(Vector2(s, s))
+
+## Approximates the water surface height at any world XZ coordinates
+func get_water_height_at(world_xz: Vector2) -> float:
+	var base_y := global_position.y
+	var mat := _shader_material()
+	if mat == null:
+		return base_y
+
+	var wave_h: float = float(mat.get_shader_parameter("wave_height")) if mat.get_shader_parameter("wave_height") != null else 2.15
+	var wave_speed: float = float(mat.get_shader_parameter("base_speed")) if mat.get_shader_parameter("base_speed") != null else 2.4
+	var wavelength: float = float(mat.get_shader_parameter("base_wavelength")) if mat.get_shader_parameter("base_wavelength") != null else 38.0
+	var time_scale: float = float(mat.get_shader_parameter("wave_time_scale")) if mat.get_shader_parameter("wave_time_scale") != null else 1.15
+	var t: float = (Time.get_ticks_msec() / 1000.0) * time_scale
+
+	var freq := TAU / maxf(wavelength, 0.001)
+	var amp := 1.0
+	var height := 0.0
+
+	# Evaluate the dominant wave octaves
+	for i in range(4):
+		var n := float(i) + 1.0
+		var dir_x := (fmod(sin(n * 127.1) * 43758.5453, 1.0)) * 2.0 - 1.0
+		var dir_z := (fmod(sin(n * 269.5) * 43758.5453, 1.0)) * 2.0 - 1.0
+		var dir := Vector2(dir_x, dir_z).normalized()
+		var speed_i := wave_speed * lerpf(0.75, 1.4, fmod(sin((n + 3.0) * 91.7) * 453.1, 1.0))
+		var phase := speed_i * freq * t
+		var theta := dir.dot(world_xz) * freq + phase
+		var shape := exp(2.35 * (sin(theta) - 1.0))
+		height += amp * shape
+		freq *= 1.28
+		amp *= 0.78
+
+	return base_y + (height * wave_h * 0.5)

@@ -2,19 +2,51 @@
 
 [ext_resource type="Material" path="res://MATERIAL/bathroom_tiles.tres" id="1_tiles"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_pylon"]
-size = Vector3(6.0, 190.0, 6.0)
+[sub_resource type="BoxShape3D" id="BoxShape3D_submerged_base"]
+size = Vector3(6.0, 188.0, 6.0)
 
-[sub_resource type="BoxMesh" id="BoxMesh_pylon"]
+[sub_resource type="BoxMesh" id="BoxMesh_submerged_base"]
 material = ExtResource("1_tiles")
-size = Vector3(6.0, 190.0, 6.0)
+size = Vector3(6.0, 188.0, 6.0)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_core"]
+size = Vector3(3.6, 2.0, 3.6)
+
+[sub_resource type="BoxMesh" id="BoxMesh_core"]
+material = ExtResource("1_tiles")
+size = Vector3(3.6, 2.0, 3.6)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_platform"]
+size = Vector3(10.0, 0.5, 10.0)
+
+[sub_resource type="BoxMesh" id="BoxMesh_platform"]
+material = ExtResource("1_tiles")
+size = Vector3(10.0, 0.5, 10.0)
 
 [node name="SupportPylon" type="StaticBody3D"]
 collision_layer = 1
 collision_mask = 2
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("BoxShape3D_pylon")
+[node name="SubmergedBaseCollision" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -95, 0)
+shape = SubResource("BoxShape3D_submerged_base")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("BoxMesh_pylon")
+[node name="SubmergedBaseMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -95, 0)
+mesh = SubResource("BoxMesh_submerged_base")
+
+[node name="WalkwayPlatformCollision" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 26, 0)
+shape = SubResource("BoxShape3D_platform")
+
+[node name="WalkwayPlatformMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 26, 0)
+mesh = SubResource("BoxMesh_platform")
+
+[node name="PylonCoreCollision" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 27, 0)
+shape = SubResource("BoxShape3D_core")
+
+[node name="PylonCoreMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 27, 0)
+mesh = SubResource("BoxMesh_core")

@@ -143,6 +143,11 @@ func is_open() -> bool:
 	return panel != null and panel.visible
 
 
+func show_panel() -> void:
+	if panel:
+		_set_open(true)
+
+
 func _set_open(open: bool) -> void:
 	panel.visible = open
 	# Only give the mouse back to the game when no settings panel is left open.
