@@ -2,39 +2,50 @@ shader_type spatial;
 render_mode unshaded, blend_mix, depth_draw_always, cull_disabled, shadows_disabled, specular_disabled, ambient_light_disabled;
 
 // --- Appearance ---
-uniform vec4 shallow_color : source_color = vec4(0.22, 0.42, 0.48, 1.0);
-uniform vec4 deep_abyss_color : source_color = vec4(0.001, 0.004, 0.008, 1.0);
-uniform vec4 foam_color : source_color = vec4(0.88, 0.93, 0.96, 1.0);
-uniform vec4 ambient_color : source_color = vec4(0.07, 0.10, 0.13, 1.0);
-uniform vec4 diffuse_color : source_color = vec4(0.18, 0.32, 0.38, 1.0);
-uniform vec4 specular_color : source_color = vec4(0.82, 0.90, 0.98, 1.0);
-uniform vec4 sun_color : source_color = vec4(0.55, 0.62, 0.72, 1.0);
+uniform vec4 shallow_color : source_color = vec4(0.02, 0.08, 0.18, 1.0);
+uniform vec4 deep_abyss_color : source_color = vec4(0.0, 0.01, 0.04, 1.0);
+uniform vec4 foam_color : source_color = vec4(0.78, 0.86, 0.94, 1.0);
+uniform vec4 ambient_color : source_color = vec4(0.01, 0.03, 0.08, 1.0);
+uniform vec4 diffuse_color : source_color = vec4(0.04, 0.12, 0.28, 1.0);
+uniform vec4 specular_color : source_color = vec4(0.72, 0.84, 0.98, 1.0);
+uniform vec4 sun_color : source_color = vec4(0.42, 0.52, 0.72, 1.0);
+uniform vec4 oil_sheen_color : source_color = vec4(0.04, 0.14, 0.32, 1.0);
 
-uniform vec3 sun_direction = vec3(0.18, 0.96, 0.22);
-uniform float specular_exponent = 180.0;
-uniform float fresnel_f0 = 0.02;
+uniform vec3 sun_direction = vec3(0.08, 0.99, 0.12);
+// 0 = mirror-sharp highlights, 1 = very broad/rough highlights
+uniform float roughness : hint_range(0.0, 1.0) = 0.287;
+uniform float specular_strength = 1.15;
+uniform float diffuse_strength = 0.35;
+uniform float reflection_strength = 0.85;
+uniform float sheen_strength = 0.55;
+uniform float refraction_strength = 0.03;
+uniform float surface_opacity = 0.94;
+uniform float foam_amount = 1.0;
+uniform float fresnel_f0 = 0.04;
 
-uniform float visible_depth = 2.1;
-uniform float depth_falloff_steepness = 1.45;
-uniform float foam_distance = 0.45;
-uniform float foam_scale = 0.15;
-uniform float caustic_scale = 0.35;
-uniform float caustic_speed = 0.8;
-uniform float caustic_strength = 0.4;
+uniform float visible_depth = 1.35;
+uniform float depth_falloff_steepness = 0.9;
+uniform float foam_distance = 1.15;
+uniform float foam_scale = 0.18;
+uniform float caustic_scale = 0.18;
+uniform float caustic_speed = 0.55;
+uniform float caustic_strength = 0.12;
 
 uniform sampler2D depth_texture : hint_depth_texture, repeat_disable;
 uniform sampler2D screen_texture : hint_screen_texture, filter_linear_mipmap, repeat_disable;
 
-// Sum of sines / fBm (Ace Roller / GPU Gems)
-uniform float wave_height = 0.28;
-uniform float wave_time_scale = 1.0;
-uniform float base_wavelength = 42.0;
-uniform float base_speed = 1.35;
+// Crashing swells
+uniform float wave_height = 2.15;
+uniform float wave_time_scale = 1.15;
+uniform float base_wavelength = 38.0;
+uniform float base_speed = 2.4;
 uniform int octaves : hint_range(1, 16) = 12;
-uniform float lacunarity = 1.18;
-uniform float persistence = 0.82;
-uniform float peak_sharpness = 1.35;
-uniform float domain_warp = 0.65;
+uniform float lacunarity = 1.28;
+uniform float persistence = 0.78;
+uniform float peak_sharpness = 2.35;
+uniform float domain_warp = 0.85;
+uniform float wave_lean = 0.55;
+uniform float wave_direction = 0.0; // degrees, rotates the whole swell pattern
 
 uniform vec3 creature_position = vec3(0.0);
 uniform vec3 creature_velocity = vec3(0.0);
@@ -45,6 +56,7 @@ varying vec3 v_world_pos;
 varying vec2 v_plane_xz;
 varying float v_wave_peak;
 varying float v_wake;
+varying float v_steepness;
 
 const int MAX_OCTAVES = 16;
 
@@ -59,7 +71,11 @@ vec2 octave_dir(int i) {
 	float n = float(i) + 1.0;
 	float x = fract(sin(n * 127.1) * 43758.5453) * 2.0 - 1.0;
 	float z = fract(sin(n * 269.5) * 43758.5453) * 2.0 - 1.0;
-	return normalize(vec2(x, z));
+	vec2 d = normalize(vec2(x, z));
+	float a = radians(wave_direction);
+	float c = cos(a);
+	float s = sin(a);
+	return vec2(d.x * c - d.y * s, d.x * s + d.y * c);
 }
 
 float get_caustics(vec2 pos, float time) {
@@ -108,8 +124,6 @@ void accumulate_creature(vec2 p, float t, float surge, inout WaveSample s) {
 	}
 }
 
-// Exponential sine: sharper peaks, wider troughs. Height = A * e^(k*(sin(θ)-1))
-// Analytic partials: d/dθ of that is A * k * cos(θ) * e^(k*(sin(θ)-1)), θ = freq * dir·p + phase
 void accumulate_wave(vec2 p, vec2 dir, float freq, float amp, float phase, inout WaveSample s) {
 	float theta = dot(dir, p) * freq + phase;
 	float sn = sin(theta);
@@ -143,7 +157,6 @@ WaveSample sample_waves(vec2 p, float t, int count) {
 		float phase = speed_i * freq * t;
 		accumulate_wave(warped, dir, freq, amp, phase, s);
 
-		// Domain warp: each wave shoves the sample point of the next one.
 		warped = p + s.deriv * domain_warp;
 
 		freq *= lacunarity;
@@ -165,20 +178,18 @@ float schlick_fresnel(float n_dot_v) {
 
 vec3 sample_environment(vec3 dir, float t) {
 	vec3 d = normalize(dir);
-	vec3 zenith = vec3(0.05, 0.08, 0.11);
-	vec3 horizon = vec3(0.10, 0.14, 0.18);
-	vec3 ground = vec3(0.004, 0.006, 0.01);
-	vec3 sky = mix(horizon, zenith, clamp(d.y, 0.0, 1.0));
-	sky = mix(ground, sky, smoothstep(-0.08, 0.06, d.y));
+	vec3 void_col = vec3(0.002, 0.008, 0.02);
+	vec3 ceiling = vec3(0.03, 0.05, 0.09);
+	vec3 sky = mix(void_col, ceiling, smoothstep(-0.05, 0.55, d.y));
 
-	// Animated self-blend so the "cubemap" does not sit dead still.
-	float drift_a = sin(d.x * 7.0 + t * 0.03) * sin(d.z * 5.5 + t * 0.02);
-	float drift_b = sin(d.x * 3.5 - t * 0.018 + 1.7) * sin(d.z * 4.2 + t * 0.025);
-	sky *= 1.0 + (drift_a + drift_b) * 0.07;
+	float lamps = 0.0;
+	lamps += pow(max(dot(d, normalize(vec3(0.12, 0.98, 0.08))), 0.0), 280.0);
+	lamps += pow(max(dot(d, normalize(vec3(-0.18, 0.97, -0.12))), 0.0), 320.0);
+	lamps += pow(max(dot(d, normalize(vec3(0.04, 0.99, 0.22))), 0.0), 400.0);
+	sky += sun_color.rgb * lamps * 0.55;
 
-	vec3 sun = normalize(sun_direction);
-	float disc = pow(max(dot(d, sun), 0.0), 220.0);
-	sky += sun_color.rgb * disc * 1.4;
+	float drift = sin(d.x * 9.0 + t * 0.015) * sin(d.z * 7.0 + t * 0.012);
+	sky *= 1.0 + drift * 0.04;
 	return sky;
 }
 
@@ -187,13 +198,16 @@ void vertex() {
 	float t = TIME * wave_time_scale;
 	WaveSample s = sample_waves(world_pos.xz, t, min(octaves, 8));
 
+	vec2 lean = -s.deriv * wave_lean;
+	VERTEX.xz += lean;
 	VERTEX.y += s.height;
 	NORMAL = normalize(vec3(-s.deriv.x, 1.0, -s.deriv.y));
 
 	v_plane_xz = world_pos.xz;
-	v_world_pos = world_pos + vec3(0.0, s.height, 0.0);
+	v_world_pos = world_pos + vec3(lean.x, s.height, lean.y);
 	v_wake = s.wake;
 	v_wave_peak = clamp(s.peak / max(wave_height * 2.2, 0.001), 0.0, 1.0);
+	v_steepness = clamp(length(s.deriv) / max(wave_height * 1.8, 0.001), 0.0, 1.0);
 }
 
 void fragment() {
@@ -211,8 +225,9 @@ void fragment() {
 	float n_dot_h = max(dot(N, H), 0.0);
 	float fresnel = schlick_fresnel(n_dot_v);
 
-	vec3 lambert = diffuse_color.rgb * n_dot_l;
-	vec3 blinn = specular_color.rgb * pow(n_dot_h, max(specular_exponent, 1.0)) * fresnel;
+	vec3 lambert = diffuse_color.rgb * n_dot_l * diffuse_strength;
+	float specular_exponent = exp2(mix(11.0, 1.0, clamp(roughness, 0.0, 1.0)));
+	vec3 blinn = specular_color.rgb * pow(n_dot_h, specular_exponent) * fresnel * specular_strength;
 	vec3 env = sample_environment(R, TIME);
 
 	float depth_val = textureLod(depth_texture, SCREEN_UV, 0.0).r;
@@ -221,28 +236,33 @@ void fragment() {
 	view_coords.xyz /= view_coords.w;
 	float water_depth = max(0.0, -view_coords.z - VERTEX.z);
 
-	float depth_factor = 1.0 - exp(-water_depth * (1.15 / max(visible_depth, 0.05)));
+	float depth_factor = 1.0 - exp(-water_depth * (2.4 / max(visible_depth, 0.05)));
 	depth_factor = clamp(pow(depth_factor, depth_falloff_steepness), 0.0, 1.0);
 
-	vec2 refract_uv = clamp(SCREEN_UV + N.xz * mix(0.045, 0.008, depth_factor), vec2(0.001), vec2(0.999));
+	vec2 refract_uv = clamp(SCREEN_UV + N.xz * mix(refraction_strength, refraction_strength * 0.133, depth_factor), vec2(0.001), vec2(0.999));
 	vec3 scene_underwater = textureLod(screen_texture, refract_uv, 0.0).rgb;
+	scene_underwater *= shallow_color.rgb;
 	float caustic_val = get_caustics(v_world_pos.xz, TIME * caustic_speed);
-	scene_underwater += vec3(caustic_val * 0.85, caustic_val, caustic_val * 1.05)
-			* (1.0 - depth_factor) * caustic_strength * (1.0 - smoothstep(0.0, 1.8, water_depth));
+	float caustic_mask = (1.0 - depth_factor) * (1.0 - smoothstep(0.0, 0.9, water_depth));
+	scene_underwater += vec3(0.25, 0.45, 0.95) * caustic_val * caustic_strength * caustic_mask;
 
-	vec3 transmission = mix(scene_underwater * shallow_color.rgb, deep_abyss_color.rgb, depth_factor);
-	vec3 water_body = ambient_color.rgb + lambert + transmission * (1.0 - fresnel * 0.85);
-	vec3 water_color = mix(water_body, env, fresnel) + blinn;
+	vec3 transmission = mix(scene_underwater, deep_abyss_color.rgb, depth_factor);
+	float oil = pow(1.0 - n_dot_v, 3.0);
+	vec3 sheen = oil_sheen_color.rgb * oil * sheen_strength;
+	vec3 water_body = ambient_color.rgb + lambert + transmission * (1.0 - fresnel * 0.92) + sheen;
+	vec3 water_color = mix(water_body, env, clamp(fresnel * reflection_strength, 0.0, 1.0)) + blinn;
 
-	float shore_foam = 1.0 - smoothstep(0.0, foam_distance, water_depth);
-	float foam_noise = sin(v_world_pos.x * foam_scale * 18.0 + TIME * 1.4)
-			* cos(v_world_pos.z * foam_scale * 16.0 + TIME * 1.1);
-	shore_foam *= clamp(foam_noise * 0.5 + 0.55, 0.0, 1.0);
-	float peak_foam = smoothstep(0.58, 0.95, v_wave_peak) * 0.7;
-	float wake_foam = smoothstep(0.35, 1.1, abs(v_wake)) * 0.75;
-	float foam_mask = clamp(shore_foam + peak_foam + wake_foam, 0.0, 1.0);
-	water_color = mix(water_color, foam_color.rgb, foam_mask * 0.72);
+	float foam_noise = sin(v_world_pos.x * foam_scale * 22.0 + TIME * 3.2)
+			* cos(v_world_pos.z * foam_scale * 18.0 + TIME * 2.6);
+	foam_noise = clamp(foam_noise * 0.5 + 0.55, 0.0, 1.0);
+	float shore_crash = (1.0 - smoothstep(0.0, foam_distance, water_depth)) * foam_noise;
+	float breaking = smoothstep(0.38, 0.82, v_steepness) * smoothstep(0.35, 0.8, v_wave_peak);
+	float crest_foam = breaking * mix(0.55, 1.0, foam_noise);
+	float spray = pow(breaking, 1.6) * foam_noise;
+	float wake_foam = smoothstep(0.35, 1.1, abs(v_wake)) * 0.7;
+	float foam_mask = clamp((shore_crash * 0.95 + crest_foam * 0.95 + spray * 0.65 + wake_foam) * foam_amount, 0.0, 1.0);
+	water_color = mix(water_color, foam_color.rgb, foam_mask);
 
 	ALBEDO = water_color;
-	ALPHA = mix(0.9, 1.0, depth_factor);
+	ALPHA = mix(surface_opacity, 1.0, depth_factor);
 }

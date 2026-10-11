@@ -2,33 +2,33 @@
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_motes"]
 emission_shape = 3
-emission_box_extents = Vector3(70, 1.1, 110)
-direction = Vector3(0.2, 0.1, 0.2)
-spread = 45.0
-initial_velocity_min = 0.05
-initial_velocity_max = 0.25
-gravity = Vector3(0, -0.02, 0)
+emission_box_extents = Vector3(90, 0.9, 140)
+direction = Vector3(0.05, -0.15, 0.08)
+spread = 70.0
+initial_velocity_min = 0.02
+initial_velocity_max = 0.12
+gravity = Vector3(0, -0.04, 0)
 turbulence_enabled = true
-turbulence_noise_strength = 0.5
-turbulence_noise_scale = 3.0
+turbulence_noise_strength = 0.35
+turbulence_noise_scale = 2.2
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mote"]
 transparency = 1
 blend_mode = 1
 shading_mode = 0
-albedo_color = Color(0.65, 0.85, 0.95, 0.35)
+albedo_color = Color(0.18, 0.32, 0.55, 0.16)
 
 [sub_resource type="SphereMesh" id="SphereMesh_mote"]
 material = SubResource("StandardMaterial3D_mote")
-radius = 0.03
-height = 0.06
+radius = 0.045
+height = 0.09
 
 [node name="WaterMotes" type="Node3D"]
 
 [node name="MoteParticles" type="GPUParticles3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.7, 0)
-amount = 520
-lifetime = 8.0
-preprocess = 4.0
+amount = 280
+lifetime = 12.0
+preprocess = 6.0
 process_material = SubResource("ParticleProcessMaterial_motes")
 draw_pass_1 = SubResource("SphereMesh_mote")

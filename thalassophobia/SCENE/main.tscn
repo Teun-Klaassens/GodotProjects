@@ -19,11 +19,16 @@
 [ext_resource type="PackedScene" uid="uid://ds33k2y5mcuya" path="res://SCENE/starting_room_light.tscn" id="18_dimlight"]
 [ext_resource type="PackedScene" uid="uid://cp7tmmvwjp0ie" path="res://SCENE/support_pylon.tscn" id="19_pylon"]
 [ext_resource type="PackedScene" uid="uid://drwxfc0ajbwd5" path="res://SCENE/drainage_grate.tscn" id="20_grate"]
+[ext_resource type="Script" uid="uid://b0nvgt6y2epxk" path="res://SCRIPT/water_ambiance.gd" id="21_crash"]
+[ext_resource type="Script" uid="uid://du1d0gf581nif" path="res://SCRIPT/water_settings_panel.gd" id="22_water_panel"]
+[ext_resource type="Script" uid="uid://b0eu730v2xdie" path="res://SCRIPT/statue_manager.gd" id="23_statue_field"]
+[ext_resource type="Script" uid="uid://cgi6tuhqvxrid" path="res://SCRIPT/model_settings_panel.gd" id="24_model_panel"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sky"]
-sky_horizon_color = Color(0.1, 0.14, 0.18, 1)
-ground_bottom_color = Color(0.005, 0.005, 0.01, 1)
-ground_horizon_color = Color(0.02, 0.03, 0.05, 1)
+sky_top_color = Color(0.006, 0.012, 0.03, 1)
+sky_horizon_color = Color(0.015, 0.04, 0.08, 1)
+ground_bottom_color = Color(0, 0, 0, 1)
+ground_horizon_color = Color(0.004, 0.012, 0.03, 1)
 
 [sub_resource type="Sky" id="Sky_env"]
 sky_material = SubResource("ProceduralSkyMaterial_sky")
@@ -32,15 +37,18 @@ sky_material = SubResource("ProceduralSkyMaterial_sky")
 background_mode = 2
 sky = SubResource("Sky_env")
 ambient_light_source = 2
-ambient_light_color = Color(0.18, 0.22, 0.26, 1)
+ambient_light_color = Color(0.03, 0.06, 0.12, 1)
+ambient_light_energy = 0.4
 tonemap_mode = 2
 ssr_enabled = true
 ssr_depth_tolerance = 0.2
 glow_enabled = true
-glow_bloom = 0.15
+glow_bloom = 0.1
 volumetric_fog_enabled = true
-volumetric_fog_density = 0.003
-volumetric_fog_albedo = Color(0.12, 0.16, 0.2, 1)
+volumetric_fog_density = 0.01
+volumetric_fog_albedo = Color(0.02, 0.05, 0.12, 1)
+volumetric_fog_emission = Color(0, 0.01, 0.03, 1)
+volumetric_fog_anisotropy = 0.35
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_water"]
 material = ExtResource("6_water_mat")
@@ -86,25 +94,25 @@ material = ExtResource("8_abyss")
 [node name="LeftWall" type="CSGBox3D" parent="Chamber" unique_id=822834819]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -600, -25, 0)
 use_collision = true
-size = Vector3(2, 195, 2250)
+size = Vector3(2, 395, 2250)
 material = ExtResource("4_tiles")
 
 [node name="RightWall" type="CSGBox3D" parent="Chamber" unique_id=1113095758]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 600, -25, 0)
 use_collision = true
-size = Vector3(2, 195, 2250)
+size = Vector3(2, 395, 2250)
 material = ExtResource("4_tiles")
 
 [node name="BackWall" type="CSGBox3D" parent="Chamber" unique_id=324151626]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -25, -1125)
 use_collision = true
-size = Vector3(1200, 195, 2)
+size = Vector3(1200, 395, 2)
 material = ExtResource("4_tiles")
 
 [node name="FrontWall" type="CSGBox3D" parent="Chamber" unique_id=313633272]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -25, 1125)
 use_collision = true
-size = Vector3(1200, 195, 2)
+size = Vector3(1200, 395, 2)
 material = ExtResource("4_tiles")
 
 [node name="DoorwayCutout" type="CSGBox3D" parent="Chamber/FrontWall" unique_id=1988472611]
@@ -113,7 +121,7 @@ operation = 2
 size = Vector3(2.4, 3.2, 6)
 
 [node name="Ceiling" type="CSGBox3D" parent="Chamber" unique_id=1824853949]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 70, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 170, 0)
 use_collision = true
 size = Vector3(1200, 2, 2250)
 material = ExtResource("3_metal")
@@ -212,7 +220,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.6, 0)
 [node name="HeavyDoor" parent="StartingRoom" unique_id=1895417187 instance=ExtResource("17_door")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.5)
 
-[node name="WaterPlane" type="MeshInstance3D" parent="." unique_id=1739917189]
+[node name="WaterPlane" type="MeshInstance3D" parent="." unique_id=1739917189 groups=["water"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 mesh = SubResource("PlaneMesh_water")
 
@@ -223,6 +231,11 @@ stream = ExtResource("7_underwater_sfx")
 unit_size = 50.0
 autoplay = true
 max_distance = 400.0
+
+[node name="WaveCrashAudio" type="AudioStreamPlayer3D" parent="WaterPlane" unique_id=1579459909]
+unit_size = 80.0
+max_distance = 600.0
+script = ExtResource("21_crash")
 
 [node name="DisplacementController" type="Node3D" parent="WaterPlane" unique_id=2129420269 node_paths=PackedStringArray("water_mesh")]
 script = ExtResource("12_displacement")
@@ -432,3 +445,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 69, 1050)
 
 [node name="Player" parent="." unique_id=1513399875 instance=ExtResource("2_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 1128.5)
+
+[node name="WaterSettings" type="CanvasLayer" parent="." unique_id=1391491815]
+script = ExtResource("22_water_panel")
+
+[node name="StatueField" type="Node3D" parent="." unique_id=1723769329]
+script = ExtResource("23_statue_field")
+
+[node name="ModelSettings" type="CanvasLayer" parent="." unique_id=530645565]
+script = ExtResource("24_model_panel")

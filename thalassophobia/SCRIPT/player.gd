@@ -91,7 +91,10 @@ func capture_mouse(capture: bool) -> void:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 func _physics_process(delta: float) -> void:
-	is_in_water = global_position.y <= 0.65
+	# Wading threshold follows the WaterPlane height (default plane y=0.5 -> 0.65)
+	var water_node := get_tree().get_first_node_in_group("water") as Node3D
+	var water_level := water_node.global_position.y if water_node else 0.5
+	is_in_water = global_position.y <= water_level + 0.15
 
 	if not is_on_floor():
 		velocity.y -= gravity * delta
