@@ -1,12 +1,14 @@
 [gd_scene format=3 uid="uid://f7ba0csc5qgt"]
 
 [ext_resource type="Script" uid="uid://csieagpweofpk" path="res://scripts/main.gd" id="1_o6xl0"]
-[ext_resource type="PackedScene" uid="uid://7qcw8be8vn0y" path="res://scenes/blocks/tetris_i.tscn" id="2_o6xl0"]
-[ext_resource type="PackedScene" uid="uid://c8ga2qrdh2th8" path="res://scenes/blocks/tetris_l.tscn" id="3_tipki"]
+[ext_resource type="PackedScene" uid="uid://7qcw8be8vn0y" path="res://scenes/blocks/tetris_i.tscn" id="2_tefeu"]
+[ext_resource type="PackedScene" uid="uid://c8ga2qrdh2th8" path="res://scenes/blocks/tetris_l.tscn" id="3_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://cw17q0b66cit2" path="res://scenes/blocks/tetris_o.tscn" id="4_85g3d"]
-[ext_resource type="PackedScene" uid="uid://cfctr8vljlrsu" path="res://scenes/blocks/tetris_s.tscn" id="5_choun"]
-[ext_resource type="PackedScene" uid="uid://7xfs482eugcd" path="res://scenes/blocks/tetris_t.tscn" id="6_ya4ey"]
-[ext_resource type="PackedScene" uid="uid://bwe4ithn88p1b" path="res://scenes/prediction_world.tscn" id="7_o6xl0"]
+[ext_resource type="PackedScene" uid="uid://cfctr8vljlrsu" path="res://scenes/blocks/tetris_s.tscn" id="5_tipki"]
+[ext_resource type="PackedScene" uid="uid://7xfs482eugcd" path="res://scenes/blocks/tetris_t.tscn" id="6_85g3d"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_0wfyh"]
+load_path = "res://.godot/imported/black-pixel-background-for-tetris-game-mosaic-blocks-vintage-videogame-backdrop-seamless-pattern-free-vector.jpg-d6fe3c75e98d2a37ade8984233833e22.ctex"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tipki"]
 size = Vector2(1148, 20)
@@ -21,20 +23,30 @@ size = Vector2(118.25491, 21.05503)
 
 [node name="Node2D" type="Node2D" unique_id=1439736805]
 script = ExtResource("1_o6xl0")
-object_scenes = Array[PackedScene]([ExtResource("2_o6xl0"), ExtResource("3_tipki"), ExtResource("4_85g3d"), ExtResource("5_choun"), ExtResource("6_ya4ey")])
+object_scenes = Array[PackedScene]([ExtResource("2_tefeu"), ExtResource("3_o6xl0"), ExtResource("4_85g3d"), ExtResource("5_tipki"), ExtResource("6_85g3d")])
 
-[node name="Background" type="ColorRect" parent="." unique_id=1922812978]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.6928628, 0.32125005, 0.522996, 1)
+[node name="HUD" type="CanvasLayer" parent="." unique_id=2000624132]
+
+[node name="ScoreLabel" type="Label" parent="HUD" unique_id=910042319]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 200.41998
+offset_bottom = 461.0
+scale = Vector2(0.35, 0.35)
+theme_override_font_sizes/font_size = 160
+text = "0
+"
 
 [node name="Camera" type="Camera2D" parent="." unique_id=1228091199]
 
+[node name="Background" type="Sprite2D" parent="Camera" unique_id=2137117716]
+modulate = Color(1, 1, 1, 0.23529412)
+z_index = -10
+position = Vector2(2.4999924, -1.5)
+scale = Vector2(1.17, 1.17)
+texture = SubResource("CompressedTexture2D_0wfyh")
+
 [node name="SpawnPoint" type="Marker2D" parent="." unique_id=881389397]
-position = Vector2(0, -270)
 
 [node name="Floor" type="StaticBody2D" parent="." unique_id=1840938363 groups=["Floor"]]
 
@@ -76,5 +88,3 @@ position = Vector2(265, 218)
 rotation = 2.3561945
 scale = Vector2(84.00003, 16.5)
 mesh = SubResource("BoxMesh_1cg0m")
-
-[node name="PredictionWorld" parent="." unique_id=2134936602 instance=ExtResource("7_o6xl0")]
