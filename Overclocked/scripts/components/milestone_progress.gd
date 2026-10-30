@@ -10,38 +10,59 @@ var unlock_notice: String = ""
 const ENDLESS_GOALS: Array[Dictionary] = [{"iron_plate":50},{"copper_wire":40},{"reinforced_plate":20},{"circuit":15}]
 
 func receive_item(kind: String) -> void:
- lifetime[kind] = int(lifetime.get(kind,0)) + 1
- var goals: Dictionary = FactoryData.STAGES[stage] if stage < FactoryData.STAGES.size() else ENDLESS_GOALS[completed % ENDLESS_GOALS.size()]
- if goals.has(kind):
-  counts[kind] = mini(int(counts.get(kind,0)) + 1, int(goals[kind]))
- var done: bool = true
- for required in goals.keys():
-  if int(counts.get(required,0)) < int(goals[required]):
-   done = false
- if done:
-  counts.clear()
-  if stage < FactoryData.STAGES.size():
-   stage += 1
-   unlock_notice = "Milestone complete! " + ("Endless contracts unlocked" if stage == 3 else "New technology unlocked")
-  else:
-   completed += 1
-   unlock_notice = "Endless contract completed! New contract available."
+    lifetime[kind] = int(lifetime.get(kind,0)) + 1
+    var goals: Dictionary = FactoryData.STAGES[stage] if stage < FactoryData.STAGES.size() else ENDLESS_GOALS[completed % ENDLESS_GOALS.size()]
+    if goals.has(kind):
+        counts[kind] = mini(int(counts.get(kind,0)) + 1, int(goals[kind]))
+    var done: bool = true
+    for required in goals.keys():
+        if int(counts.get(required,0)) < int(goals[required]):
+            done = false
+    if done:
+        counts.clear()
+        if stage < FactoryData.STAGES.size():
+            stage += 1
+            unlock_notice = "Milestone complete! " + ("Endless contracts unlocked" if stage == 3 else "New technology unlocked")
+        else:
+            completed += 1
+            unlock_notice = "Endless contract completed! New contract available."
+
+func current_goals() -> Dictionary:
+    return FactoryData.STAGES[stage] if stage < FactoryData.STAGES.size() else ENDLESS_GOALS[completed % ENDLESS_GOALS.size()]
+
+func progress_ratio() -> float:
+    var goals: Dictionary = current_goals()
+    var required: int = 0
+    var delivered: int = 0
+    for item in goals.keys():
+        required += int(goals[item])
+        delivered += mini(int(goals[item]),int(counts.get(item,0)))
+    return float(delivered)/float(required) if required > 0 else 0.0
+
+func reward_description() -> String:
+    if stage == 0:
+        return "Unlocks copper processing, iron rods and storage"
+    if stage == 1:
+        return "Unlocks assemblers, coal generators and advanced recipes"
+    if stage == 2:
+        return "Unlocks endless production contracts"
+    return "Complete repeatable contracts for new challenges"
 
 func summary() -> String:
- var goals: Dictionary = FactoryData.STAGES[stage] if stage < FactoryData.STAGES.size() else ENDLESS_GOALS[completed % ENDLESS_GOALS.size()]
- var parts: Array[String] = []
- for item in goals.keys():
-  parts.append("%s %d/%d" % [str(item).replace("_"," ").capitalize(), int(counts.get(item,0)), int(goals[item])])
- if stage >= FactoryData.STAGES.size():
-  return "Endless #%d: %s" % [completed+1," · ".join(PackedStringArray(parts))]
- return "M%d/3: %s" % [stage+1, " · ".join(PackedStringArray(parts))]
+    var goals: Dictionary = FactoryData.STAGES[stage] if stage < FactoryData.STAGES.size() else ENDLESS_GOALS[completed % ENDLESS_GOALS.size()]
+    var parts: Array[String] = []
+    for item in goals.keys():
+        parts.append("%s %d/%d" % [str(item).replace("_"," ").capitalize(), int(counts.get(item,0)), int(goals[item])])
+    if stage >= FactoryData.STAGES.size():
+        return "Endless #%d: %s" % [completed+1," · ".join(PackedStringArray(parts))]
+    return "M%d/3: %s" % [stage+1, " · ".join(PackedStringArray(parts))]
 
 func to_data() -> Dictionary:
- return {"stage": stage, "counts": counts.duplicate(true), "lifetime": lifetime.duplicate(true), "completed": completed}
+    return {"stage": stage, "counts": counts.duplicate(true), "lifetime": lifetime.duplicate(true), "completed": completed}
 
 func from_data(d: Dictionary) -> void:
- stage = clampi(int(d.get("stage",0)), 0, 3)
- counts = d.get("counts", {}).duplicate(true)
- lifetime = d.get("lifetime", {}).duplicate(true)
- completed = int(d.get("completed",0))
- unlock_notice = ""
+    stage = clampi(int(d.get("stage",0)), 0, 3)
+    counts = d.get("counts", {}).duplicate(true)
+    lifetime = d.get("lifetime", {}).duplicate(true)
+    completed = int(d.get("completed",0))
+    unlock_notice = ""

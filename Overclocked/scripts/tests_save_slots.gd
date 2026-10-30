@@ -1,0 +1,23 @@
+extends Node
+const Grid = preload("res://scripts/components/build_grid.gd")
+const Sim = preload("res://scripts/components/factory_simulation.gd")
+const Progress = preload("res://scripts/components/milestone_progress.gd")
+const Save = preload("res://scripts/components/save_manager.gd")
+
+func _ready() -> void:
+    var grid = Grid.new()
+    var sim = Sim.new(grid)
+    var progress = Progress.new()
+    var camera = Camera2D.new()
+    add_child(camera)
+    assert(grid.place(Vector2i(5,6),2,0))
+    sim.sync_machines()
+    assert(Save.save_game(grid,sim,progress,{"iron_plate":123},camera,4,"Test Slot 4"))
+    assert(Save.has_slot(4))
+    assert(Save.slot_info(4).contains("Test Slot 4"))
+    grid.buildings.clear()
+    var inv: Dictionary = Save.load_game(grid,sim,progress,camera,4)
+    assert(grid.buildings.has(Vector2i(5,6)))
+    assert(int(inv.get("iron_plate",0))==123)
+    print("PASS: save slot names, serialize, deserialize")
+    get_tree().quit()

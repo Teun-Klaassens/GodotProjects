@@ -46,3 +46,6 @@ This is a **complete Godot 4.3+ project**, based on the Part 1 HUD project with 
 For a standalone cable test, open `scenes/tests/power_wires_test.tscn` and run it with **F6**. The Part 1 HUD test is `scenes/tests/hud_test.tscn`.
 
 **Engine limitation:** Godot is not installed in this environment, so this project has not been executed or visually verified in-engine. Static project-path checks have been run. The art stays pixel-art from your uploaded sprite sheets; no external building sprites were introduced.
+
+
+See `README_UPGRADES.md` for the 3-part release, controls and tests.
