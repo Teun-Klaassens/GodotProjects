@@ -1,12 +1,11 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://c5bnvwwvs6brj"]
 
-[ext_resource type="Script" path="res://scripts/main.gd" id="1"]
+[ext_resource type="Script" uid="uid://cbjuvmvdy2rcm" path="res://scripts/main.gd" id="1"]
 
-[node name="Overclocked" type="Node2D"]
+[node name="Overclocked" type="Node2D" unique_id=733596275]
 script = ExtResource("1")
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=805593459]
 position = Vector2(1280, 960)
-enabled = true
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1275066922]

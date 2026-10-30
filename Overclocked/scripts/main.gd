@@ -460,6 +460,7 @@ func _mouse_button(e: InputEventMouseButton) -> void:
    dragging_belt = false
    _place_belt(belt_start, belt_end)
 
+
 func mouse_tile() -> Vector2i:
  var p: Vector2 = get_global_mouse_position()
  return Vector2i(floori(p.x/float(TILE)),floori(p.y/float(TILE)))
@@ -469,6 +470,8 @@ func _can_afford(cost: Dictionary) -> bool:
   if int(inv.get(key,0)) < int(cost[key]):
    return false
  return true
+
+
 
 func _apply_cost(cost: Dictionary, sign: int) -> void:
  for key in cost.keys():
