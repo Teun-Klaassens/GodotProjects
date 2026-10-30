@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" uid="uid://cbjuvmvdy2rcm" path="res://scripts/main.gd" id="1"]
 
-[node name="Overclocked" type="Node2D" unique_id=85242350]
+[node name="Overclocked" type="Node2D" unique_id=1524708851]
 script = ExtResource("1")
 
-[node name="Camera2D" type="Camera2D" parent="." unique_id=1445188226]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=787439142]
 position = Vector2(1280, 960)
 
-[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=990671342]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1821541953]

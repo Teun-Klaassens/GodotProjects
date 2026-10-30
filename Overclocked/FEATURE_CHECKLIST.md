@@ -49,3 +49,11 @@ If an error appears in Godot, copy the *full error with filename and line number
 - [ ] Hold Shift for port markers; right-click a machine to keep its ports visible.
 - [ ] B opens the full build catalog; building thumbnails/costs and hotbar still work.
 - [ ] Run `scenes/tests/power_wires_test.tscn` with F6.
+
+- [ ] v7: Right-click a machine/belt to delete it and refund materials.
+- [ ] v7: Right-click drag a rectangle and release to delete all touched machines / selected belts.
+- [ ] v7: Press Escape while right-dragging to cancel.
+- [ ] v7: Middle-click a rotated machine to select the same type and rotation.
+- [ ] v7: Middle-click a belt to choose conveyor; middle-drag empty grass still pans.
+- [ ] v7: Press F to inspect. Undo an entire mass deletion with one Ctrl+Z.
+- [ ] v7: Run quick_tools_test.tscn with F6.

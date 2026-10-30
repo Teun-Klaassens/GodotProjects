@@ -49,3 +49,8 @@ For a standalone cable test, open `scenes/tests/power_wires_test.tscn` and run i
 
 
 See `README_UPGRADES.md` for the 3-part release, controls and tests.
+
+
+## New in v7 — right-drag bulldozer and middle-click eyedropper
+
+See [README_QUICK_TOOLS.md](README_QUICK_TOOLS.md). **Right-click** deletes, **right-drag** previews and mass deletes, **middle-click** copies a building type and rotation (or conveyor), **F** inspects machines, and **Ctrl+Z** undoes the whole selection. Middle-drag pans when pressed over empty ground.

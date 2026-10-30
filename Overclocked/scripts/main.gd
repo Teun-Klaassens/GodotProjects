@@ -13,6 +13,7 @@ const FactoryAlerts = preload("res://scripts/components/factory_alerts.gd")
 const BuildHistory = preload("res://scripts/components/build_history.gd")
 const InventoryRules = preload("res://scripts/components/inventory_rules.gd")
 const ProductionStats = preload("res://scripts/components/production_stats.gd")
+const ConstructionTools = preload("res://scripts/components/construction_tools.gd")
 
 const TILE: int = BuildGrid.TILE_SIZE
 const TOOLS: Array[int] = [1,12,13,2,3,4,7,8,9,10,11,6,5]
@@ -38,6 +39,9 @@ var dragging_belt: bool = false
 var belt_start: Vector2i = Vector2i.ZERO
 var belt_end: Vector2i = Vector2i.ZERO
 var dragging_camera: bool = false
+var dragging_delete: bool = false
+var delete_start: Vector2i = Vector2i.ZERO
+var delete_end: Vector2i = Vector2i.ZERO
 var show_grid: bool = true
 var paused: bool = false
 var inventory_open: bool = false
@@ -534,7 +538,7 @@ func _process(delta: float) -> void:
 	wire_layer.queue_redraw()
 
 func _update_ui() -> void:
-	var message: String = notice if notice_seconds > 0 else "B: Build catalog  •  V: Wires  •  Shift: Ports  •  Right-click: Inspect  •  R: Rotate"
+	var message: String = notice if notice_seconds > 0 else "B: Build  •  RMB: Delete/drag area  •  MMB: Copy building  •  F: Inspect  •  R: Rotate"
 	toast_label.text = message
 	alerts_label.text = factory_alerts.details()
 	milestone_bar.value = milestones.progress_ratio()*100.0
@@ -579,6 +583,8 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event is InputEventMouseMotion:
 		if dragging_camera:
 			camera.position -= event.relative / camera.zoom
+		if dragging_delete:
+			delete_end = mouse_tile()
 		if dragging_belt:
 			belt_end = mouse_tile()
 		if painting_buildings and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
@@ -638,6 +644,8 @@ func _key_pressed(e: InputEventKey) -> void:
 		_toggle_stats()
 	elif e.keycode == KEY_M:
 		_toggle_music()
+	elif e.keycode == KEY_F:
+		_inspect(mouse_tile())
 	elif e.keycode == KEY_V:
 		wire_layer.enabled = not wire_layer.enabled
 		_say("Power wires %s" % ("shown" if wire_layer.enabled else "hidden"))
@@ -651,6 +659,7 @@ func _key_pressed(e: InputEventKey) -> void:
 		_toggle_machine()
 	elif e.keycode == KEY_ESCAPE:
 		dragging_belt = false
+		dragging_delete = false
 		_close_inspector()
 	elif e.keycode == KEY_BACKSPACE or e.keycode == KEY_DELETE:
 		_demolish(mouse_tile())
@@ -661,12 +670,31 @@ func _mouse_button(e: InputEventMouseButton) -> void:
 	elif e.button_index == MOUSE_BUTTON_WHEEL_DOWN and e.pressed:
 		camera.zoom = (camera.zoom / 1.12).clamp(Vector2(0.5,0.5),Vector2(3.0,3.0))
 	elif e.button_index == MOUSE_BUTTON_MIDDLE:
-		dragging_camera = e.pressed
-	elif e.button_index == MOUSE_BUTTON_RIGHT and e.pressed:
-		if dragging_belt:
-			dragging_belt = false
+		if e.pressed:
+			# Eyedropper on machines/belts; retain middle-mouse camera dragging on grass.
+			var picked: Dictionary = ConstructionTools.pick(grid, mouse_tile())
+			if picked.is_empty():
+				dragging_camera = true
+			else:
+				dragging_camera = false
+				_select_tool(int(picked["type"]))
+				rotation_index = int(picked["rotation"])
+				_say("Copied %s (rotation %d°)" % [str(FactoryData.NAMES[selected_tool]), rotation_index * 90], 2.0)
 		else:
-			_inspect(mouse_tile())
+			dragging_camera = false
+	elif e.button_index == MOUSE_BUTTON_RIGHT:
+		if e.pressed:
+			if dragging_belt:
+				dragging_belt = false
+				_say("Belt placement cancelled", 1.5)
+			else:
+				delete_start = mouse_tile()
+				delete_end = delete_start
+				dragging_delete = true
+		elif dragging_delete:
+			delete_end = mouse_tile()
+			dragging_delete = false
+			_demolish_area(delete_start, delete_end)
 	elif e.button_index == MOUSE_BUTTON_LEFT:
 		if e.pressed:
 			if e.shift_pressed and selected_tool in [2,3,4,6,7,8,9,10,11,12,13]:
@@ -747,33 +775,20 @@ func _place_belt(start: Vector2i, goal: Vector2i) -> void:
 		_say("Connected %d conveyor tiles with animated turns" % path.size(),2.0)
 
 func _demolish(tile: Vector2i) -> void:
-	if not grid.occupied(tile):
-		_say("Nothing to remove",1.0)
+	_demolish_area(tile, tile)
+
+func _demolish_area(first: Vector2i, last: Vector2i) -> void:
+	var selection: Dictionary = ConstructionTools.targets(grid, first, last)
+	if not ConstructionTools.has_targets(selection):
+		_say("Nothing to remove", 1.0)
 		return
-	edits.remember(grid,sim,inv)
-	var origin: Vector2i = grid.building_at(tile)
-	if origin != Vector2i(-1,-1):
-		var kind: int = int(grid.buildings[origin]["type"])
-		_apply_cost(FactoryData.COSTS.get(kind,{}),1)
-		if sim.machines.has(origin):
-			var state: Dictionary = sim.machines[origin]
-			for buffer_name in ["input","output"]:
-				var buffer: Dictionary = state.get(buffer_name,{})
-				for key in buffer.keys():
-					inv[key] = int(inv.get(key,0)) + int(buffer[key])
-			inv["coal"] = int(inv.get("coal",0)) + int(state.get("fuel",0))
-		if selected_machine == origin:
-			_close_inspector()
-	elif grid.belts.has(tile):
-		inv["iron_plate"] = int(inv.get("iron_plate",0)) + 1
-		if sim.items.has(tile):
-			var item: Dictionary = sim.items[tile]
-			inv[str(item["kind"])] = int(inv.get(item["kind"],0)) + 1
-	if grid.erase_at(tile) > 0:
-		sim.sync_machines()
-		_say("Removed; materials fully refunded",2.0)
-	else:
-		_say("Nothing to remove",1.0)
+	# One snapshot for the whole selection: a single Ctrl+Z undoes the entire demolition.
+	edits.remember(grid, sim, inv)
+	var removed: Dictionary = ConstructionTools.remove(grid, sim, inv, selection)
+	if selected_machine != Vector2i(-1, -1) and not grid.buildings.has(selected_machine):
+		_close_inspector()
+	if int(removed["buildings"]) + int(removed["belts"]) > 0:
+		_say("Removed %d buildings and %d belts — refunded (Ctrl+Z to undo)" % [int(removed["buildings"]), int(removed["belts"])], 3.0)
 
 func _inspect(tile: Vector2i) -> void:
 	var origin: Vector2i = grid.building_at(tile)
@@ -1065,6 +1080,10 @@ func _draw_buildings() -> void:
 func _draw_preview() -> void:
 	if build_catalog.visible:
 		return
+	# The bulldozer highlight takes precedence over any building-placement ghost.
+	if dragging_delete:
+		_draw_delete_preview(delete_start, delete_end)
+		return
 	var tile: Vector2i = mouse_tile()
 	if selected_tool in [2,3,4,6,7,8,9,10,11,12,13]:
 		var sz: Vector2i = FactoryData.footprint(selected_tool,rotation_index)
@@ -1100,6 +1119,30 @@ func _draw_preview() -> void:
 		if not path.is_empty():
 			var end_center: Vector2 = (Vector2(path[-1])+Vector2(0.5,0.5))*float(TILE)
 			draw_string(ThemeDB.fallback_font,end_center+Vector2(10,-8),"%d plates" % new_belts,HORIZONTAL_ALIGNMENT_LEFT,-1,15,Color.WHITE)
+
+func _draw_delete_preview(first: Vector2i, last: Vector2i) -> void:
+	var rect_tiles: Rect2i = ConstructionTools.rectangle(first, last)
+	var clipped: Rect2i = rect_tiles.intersection(Rect2i(0, 0, BuildGrid.WIDTH, BuildGrid.HEIGHT))
+	if not clipped.has_area():
+		return
+	var rect: Rect2 = Rect2(Vector2(clipped.position) * float(TILE), Vector2(clipped.size) * float(TILE))
+	draw_rect(rect, Color(0.92, 0.18, 0.20, 0.25), true)
+	draw_rect(rect, Color(1.0, 0.37, 0.32, 0.95), false, 3.0)
+	var chosen: Dictionary = ConstructionTools.targets(grid, first, last)
+	for origin in chosen["buildings"]:
+		var entry: Dictionary = grid.buildings[origin]
+		var footprint: Vector2i = FactoryData.footprint(int(entry["type"]), int(entry["rotation"]))
+		var outline: Rect2 = Rect2(Vector2(origin) * float(TILE), Vector2(footprint) * float(TILE))
+		draw_rect(outline, Color(1.0, 0.33, 0.30, 0.28), true)
+		draw_rect(outline, Color(1.0, 0.45, 0.34, 0.95), false, 4.0)
+	for tile in chosen["belts"]:
+		var belt_rect: Rect2 = Rect2(Vector2(tile) * float(TILE), Vector2.ONE * float(TILE))
+		draw_rect(belt_rect, Color(1.0, 0.45, 0.35, 0.5), true)
+	var label: String = "%d buildings + %d belts  •  Release RMB to delete  •  Esc to cancel" % [chosen["buildings"].size(), chosen["belts"].size()]
+	var label_pos: Vector2 = rect.position + Vector2(6, -9)
+	if label_pos.y < 18.0:
+		label_pos.y = rect.position.y + 18.0
+	draw_string(ThemeDB.fallback_font, label_pos, label, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color.WHITE)
 
 func _draw_feedback() -> void:
 	if placement_flash_time > 0.0:
