@@ -506,6 +506,7 @@ func _on_delivered(item: String) -> void:
 		_say(milestones.unlock_notice,7.0)
 		milestones.unlock_notice = ""
 
+
 func _say(message: String, seconds: float = 3.0) -> void:
 	notice = message
 	notice_seconds = seconds
