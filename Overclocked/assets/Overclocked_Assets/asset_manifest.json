@@ -1,0 +1,105 @@
+{
+  "conveyors": {
+    "frames": 4,
+    "frame_size": [
+      256,
+      224
+    ],
+    "durations_ms": [
+      100,
+      100,
+      100,
+      100
+    ],
+    "layers": [
+      "conveyor sprites"
+    ]
+  },
+  "machines": {
+    "frames": 16,
+    "frame_size": [
+      160,
+      160
+    ],
+    "durations_ms": [
+      250,
+      250,
+      250,
+      250,
+      250,
+      250,
+      250,
+      250,
+      250,
+      250,
+      250,
+      250,
+      250,
+      250,
+      250,
+      250
+    ],
+    "layers": [
+      "background",
+      "sprites",
+      "text",
+      "fabricating on/off",
+      "fab on/off side",
+      "fabricating side",
+      "fabricating v3",
+      "cool on/off",
+      "cool on/off side",
+      "cool",
+      "cool particles",
+      "cool side",
+      "cool particles side",
+      "electrifier on/off",
+      "elec on/off side",
+      "elec electrify side",
+      "elec particles side",
+      "elec electrify",
+      "elec particles",
+      "on/off",
+      "burn v3",
+      "on/off side",
+      "burn side",
+      "smoke",
+      "smoke side",
+      "useable opening",
+      "randomizer on/off",
+      "randomizing",
+      "nr0",
+      "nr1",
+      "nr2",
+      "nr3",
+      "nr4",
+      "nr5",
+      "nr6",
+      "nr7",
+      "nr8",
+      "nr9",
+      "randomizing side",
+      "randomer side on/off",
+      "nr9 side test",
+      "recycling on/off",
+      "recycling recycle",
+      "recycling on/off particles",
+      "recycling on/off side",
+      "recycling recycle side",
+      "recycling on/off side particles"
+    ]
+  },
+  "master": {
+    "frames": 1,
+    "frame_size": [
+      320,
+      3776
+    ],
+    "durations_ms": [
+      100
+    ],
+    "layers": [
+      "Layer 1"
+    ]
+  }
+}
